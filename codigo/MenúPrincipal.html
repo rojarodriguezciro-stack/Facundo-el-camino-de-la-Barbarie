@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Facundo: Camino de la Barbarie</title>
+
+    <link rel="stylesheet" href="MenúPrincipal.css">
+</head>
+
+<body>
+
+    <main class="game-menu">
+
+        <!-- FONDO -->
+        <div class="background"></div>
+        <div class="vignette"></div>
+
+
+        <!-- BARRA SUPERIOR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="icon-button" type="button" aria-label="Inicio">
+                    <span class="pixel-home"></span>
+                </button>
+
+                <button class="icon-button" type="button" aria-label="Configuración">
+                    <span class="pixel-gear">⚙</span>
+                </button>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button class="icon-button" type="button" aria-label="Perfil">
+                    <span class="pixel-user"></span>
+                </button>
+
+                <button class="icon-button close-button" type="button" aria-label="Cerrar">
+                    ×
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- TÍTULO -->
+        <section class="title-block">
+
+            <h1>
+
+                <span>FACUNDO:</span>
+
+                <span>CAMINO DE LA</span>
+
+                <span>BARBARIE</span>
+
+            </h1>
+
+        </section>
+
+
+
+        <!-- RETRATO DE FACUNDO -->
+        <figure class="portrait portrait-facundo">
+
+            <div class="portrait-frame">
+
+                <img
+                    src="Facundo retrato.png"
+                    alt="Retrato de Facundo Quiroga"
+                >
+
+            </div>
+
+            <figcaption>
+
+                <span>RETRATO DE</span>
+
+                <span>FACUNDO QUIROGA</span>
+
+                <small>(BANDO FEDERAL)</small>
+
+            </figcaption>
+
+        </figure>
+
+
+
+        <!-- RETRATO DE SARMIENTO -->
+        <figure class="portrait portrait-sarmiento">
+
+            <div class="portrait-frame">
+
+                <img
+                    src="Sarmiento retrato.png"
+                    alt="Retrato de D.F. Sarmiento"
+                >
+
+            </div>
+
+            <figcaption>
+
+                <span>RETRATO DE</span>
+
+                <span>D.F. SARMIENTO</span>
+
+                <small>(BANDO UNITARIO)</small>
+
+            </figcaption>
+
+        </figure>
+
+
+
+        <!-- MENÚ PRINCIPAL -->
+        <nav class="main-actions">
+
+            <button
+                class="menu-button primary"
+                type="button"
+                data-action="start"
+            >
+                COMENZAR CAMINO
+            </button>
+
+
+            <button
+                class="menu-button"
+                type="button"
+                data-action="resume"
+            >
+                RETOMAR CAMINO
+            </button>
+
+
+            <button
+                class="menu-button"
+                type="button"
+                data-action="credits"
+            >
+                CRÉDITOS
+            </button>
+
+        </nav>
+
+
+
+        <!-- VENTANA MODAL -->
+        <div
+            class="modal-layer"
+            id="modal-layer"
+            aria-hidden="true"
+        >
+
+            <section
+                class="modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    class="modal-close"
+                    type="button"
+                    data-action="modal-close"
+                >
+                    ×
+                </button>
+
+                <h2 id="modal-title">
+                    FACUNDO
+                </h2>
+
+                <p id="modal-text"></p>
+
+                <button
+                    class="menu-button modal-ok"
+                    type="button"
+                    data-action="modal-close"
+                >
+                    ACEPTAR
+                </button>
+
+            </section>
+
+        </div>
+
+
+
+        <!-- MENSAJE -->
+        <div
+            class="screen-message"
+            id="screen-message"
+        ></div>
+
+    </main>
+
+
+
+    <script>
+
+        const modalLayer =
+            document.getElementById("modal-layer");
+
+        const modalTitle =
+            document.getElementById("modal-title");
+
+        const modalText =
+            document.getElementById("modal-text");
+
+        const message =
+            document.getElementById("screen-message");
+
+
+
+        function openModal(title, text) {
+
+            modalTitle.textContent = title;
+
+            modalText.textContent = text;
+
+            modalLayer.classList.add("is-open");
+
+            modalLayer.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+        }
+
+
+
+        function closeModal() {
+
+            modalLayer.classList.remove("is-open");
+
+            modalLayer.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+        }
+
+
+
+        function showMessage(text) {
+
+            message.textContent = text;
+
+            message.classList.add("show");
+
+            clearTimeout(window.messageTimer);
+
+            window.messageTimer = setTimeout(() => {
+
+                message.classList.remove("show");
+
+            }, 2200);
+
+        }
+
+
+
+        document
+            .querySelectorAll("[data-action]")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    const action =
+                        button.dataset.action;
+
+
+                    switch (action) {
+
+                        case "start":
+
+                            showMessage(
+                                "Preparando un nuevo camino..."
+                            );
+
+                            break;
+
+
+                        case "resume":
+
+                            showMessage(
+                                "No hay una partida guardada todavía."
+                            );
+
+                            break;
+
+
+                        case "credits":
+
+                            openModal(
+                                "CRÉDITOS",
+                                "Facundo: Camino de la Barbarie · Proyecto educativo de videojuego histórico."
+                            );
+
+                            break;
+
+
+                        case "modal-close":
+
+                            closeModal();
+
+                            break;
+
+
+                        default:
+
+                            break;
+
+                    }
+
+                });
+
+            });
+
+
+
+        modalLayer.addEventListener(
+            "click",
+            event => {
+
+                if (event.target === modalLayer) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (event.key === "Escape") {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
