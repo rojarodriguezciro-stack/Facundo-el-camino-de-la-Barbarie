@@ -4,6 +4,11 @@
    ========================================================= */
 
 
+
+/* =========================================================
+   VARIABLES
+   ========================================================= */
+
 :root {
 
     --ink: #160b0d;
@@ -19,6 +24,7 @@
     --cream-light: #fff0d4;
 
 }
+
 
 
 /* =========================================================
@@ -105,17 +111,24 @@ button {
 
     z-index: -4;
 
+
+    /* RUTA CORREGIDA */
+
     background-image:
-        url("fondo de pantalla de inicio.png");
+        url("../Recursos Graficos/botones-El facundo juego/fondo de pantalla de inicio.png");
+
 
     background-position:
         center center;
 
+
     background-size:
         cover;
 
+
     background-repeat:
         no-repeat;
+
 
     image-rendering:
         pixelated;
@@ -124,7 +137,9 @@ button {
 
 
 
-/* Oscurecimiento suave de los bordes */
+/* =========================================================
+   EFECTO DE VIÑETA
+   ========================================================= */
 
 .vignette {
 
@@ -166,11 +181,14 @@ button {
 
     z-index: 10;
 
-    top: clamp(18px, 2.4vw, 34px);
+    top:
+        clamp(18px, 2.4vw, 34px);
 
-    left: clamp(22px, 3vw, 48px);
+    left:
+        clamp(22px, 3vw, 48px);
 
-    right: clamp(22px, 3vw, 48px);
+    right:
+        clamp(22px, 3vw, 48px);
 
     display: flex;
 
@@ -188,14 +206,15 @@ button {
 
     align-items: center;
 
-    gap: clamp(12px, 1.7vw, 23px);
+    gap:
+        clamp(12px, 1.7vw, 23px);
 
 }
 
 
 
 /* =========================================================
-   BOTONES SUPERIORES
+   BOTONES DE LA BARRA SUPERIOR
    ========================================================= */
 
 .icon-button {
@@ -206,19 +225,24 @@ button {
 
     place-items: center;
 
-    width: clamp(46px, 4.2vw, 61px);
+    width:
+        clamp(46px, 4.2vw, 61px);
 
-    height: clamp(46px, 4.2vw, 61px);
+    height:
+        clamp(46px, 4.2vw, 61px);
 
     padding: 0;
 
     border: 0;
 
-    color: #d9b07c;
+    color:
+        #d9b07c;
 
-    background: transparent;
+    background:
+        transparent;
 
-    cursor: pointer;
+    cursor:
+        pointer;
 
     text-shadow:
 
@@ -230,6 +254,7 @@ button {
 
         0 -2px var(--ink);
 
+
     transition:
 
         transform .12s ease,
@@ -239,7 +264,8 @@ button {
 }
 
 
-.icon-button:hover {
+.icon-button:hover,
+.icon-button:focus-visible {
 
     transform:
         translateY(-2px)
@@ -247,6 +273,9 @@ button {
 
     filter:
         brightness(1.16);
+
+    outline:
+        none;
 
 }
 
@@ -293,9 +322,11 @@ button {
 
     margin-top: 8px;
 
-    background: #d6a871;
+    background:
+        #d6a871;
 
-    border: 4px solid var(--ink);
+    border:
+        4px solid var(--ink);
 
     box-shadow:
         inset 0 -5px #a66e48;
@@ -317,7 +348,8 @@ button {
 
     top: -15px;
 
-    background: #d6a871;
+    background:
+        #d6a871;
 
     border-left:
         4px solid var(--ink);
@@ -347,9 +379,11 @@ button {
 
     bottom: 0;
 
-    background: #6f3f32;
+    background:
+        #6f3f32;
 
-    border: 3px solid var(--ink);
+    border:
+        3px solid var(--ink);
 
 }
 
@@ -402,7 +436,8 @@ button {
     box-shadow:
         inset 0 -12px #a66e48;
 
-    margin-top: 14px;
+    margin-top:
+        14px;
 
 }
 
@@ -444,9 +479,11 @@ button {
 
     z-index: 4;
 
-    top: clamp(38px, 5vw, 64px);
+    top:
+        clamp(38px, 5vw, 64px);
 
-    left: 50%;
+    left:
+        50%;
 
     width:
         min(520px, 42vw);
@@ -607,7 +644,8 @@ h1 span:nth-child(2) {
 
     filter:
         drop-shadow(
-            0 5px 0 rgba(30, 10, 8, .25)
+            0 5px 0
+            rgba(30, 10, 8, .25)
         );
 
 }
@@ -818,7 +856,8 @@ h1 span:nth-child(2) {
 }
 
 
-.menu-button:hover {
+.menu-button:hover,
+.menu-button:focus-visible {
 
     transform:
         translateY(-2px);
@@ -831,6 +870,9 @@ h1 span:nth-child(2) {
             #802633,
             #611923
         );
+
+    outline:
+        none;
 
 }
 
@@ -919,7 +961,8 @@ h1 span:nth-child(2) {
         transform .18s ease;
 
     box-shadow:
-        0 4px 0 rgba(20, 4, 5, .65);
+        0 4px 0
+        rgba(20, 4, 5, .65);
 
 }
 
@@ -1288,6 +1331,98 @@ h1 span:nth-child(2) {
 
         font-size:
             4.2vw;
+
+    }
+
+
+    .screen-message {
+
+        bottom:
+            4%;
+
+        width:
+            max-content;
+
+        max-width:
+            90vw;
+
+        text-align:
+            center;
+
+        font-size:
+            12px;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   PANTALLAS BAJAS
+   ========================================================= */
+
+@media (max-height: 700px) and (min-width: 681px) {
+
+    .portrait {
+
+        top:
+            21%;
+
+        width:
+            27vw;
+
+    }
+
+
+    .portrait figcaption {
+
+        font-size:
+            1.5vw;
+
+    }
+
+
+    .main-actions {
+
+        top:
+            55%;
+
+        width:
+            28vw;
+
+    }
+
+
+    .menu-button {
+
+        min-height:
+            45px;
+
+        font-size:
+            1.75vw;
+
+    }
+
+}
+
+
+
+/* =========================================================
+   REDUCIR ANIMACIONES
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior:
+            auto !important;
+
+        transition:
+            none !important;
 
     }
 

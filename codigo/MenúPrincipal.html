@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Facundo: Camino de la Barbarie</title>
@@ -9,38 +11,75 @@
     <link rel="stylesheet" href="MenúPrincipal.css">
 </head>
 
+
 <body>
 
     <main class="game-menu">
 
-        <!-- FONDO -->
+
+        <!-- =========================================
+             FONDO
+        ========================================== -->
+
         <div class="background"></div>
+
         <div class="vignette"></div>
 
 
-        <!-- BARRA SUPERIOR -->
+
+        <!-- =========================================
+             BARRA SUPERIOR
+        ========================================== -->
+
         <header class="topbar">
 
             <div class="topbar-left">
 
-                <button class="icon-button" type="button" aria-label="Inicio">
+                <!-- Botón inicio -->
+                <button
+                    class="icon-button"
+                    type="button"
+                    data-action="home"
+                    aria-label="Inicio"
+                >
                     <span class="pixel-home"></span>
                 </button>
 
-                <button class="icon-button" type="button" aria-label="Configuración">
+
+                <!-- Botón configuración -->
+                <button
+                    class="icon-button"
+                    type="button"
+                    data-action="settings"
+                    aria-label="Configuración"
+                >
                     <span class="pixel-gear">⚙</span>
                 </button>
 
             </div>
 
 
+
             <div class="topbar-right">
 
-                <button class="icon-button" type="button" aria-label="Perfil">
+                <!-- Botón perfil -->
+                <button
+                    class="icon-button"
+                    type="button"
+                    data-action="profile"
+                    aria-label="Perfil"
+                >
                     <span class="pixel-user"></span>
                 </button>
 
-                <button class="icon-button close-button" type="button" aria-label="Cerrar">
+
+                <!-- Botón cerrar -->
+                <button
+                    class="icon-button close-button"
+                    type="button"
+                    data-action="close"
+                    aria-label="Cerrar"
+                >
                     ×
                 </button>
 
@@ -50,7 +89,10 @@
 
 
 
-        <!-- TÍTULO -->
+        <!-- =========================================
+             TÍTULO
+        ========================================== -->
+
         <section class="title-block">
 
             <h1>
@@ -67,17 +109,21 @@
 
 
 
-        <!-- RETRATO DE FACUNDO -->
+        <!-- =========================================
+             RETRATO DE FACUNDO QUIROGA
+        ========================================== -->
+
         <figure class="portrait portrait-facundo">
 
             <div class="portrait-frame">
 
                 <img
-                    src="Facundo retrato.png"
+                    src="../Recursos Graficos/botones-El facundo juego/Retrato de Facundo.png"
                     alt="Retrato de Facundo Quiroga"
                 >
 
             </div>
+
 
             <figcaption>
 
@@ -93,17 +139,21 @@
 
 
 
-        <!-- RETRATO DE SARMIENTO -->
+        <!-- =========================================
+             RETRATO DE SARMIENTO
+        ========================================== -->
+
         <figure class="portrait portrait-sarmiento">
 
             <div class="portrait-frame">
 
                 <img
-                    src="Sarmiento retrato.png"
+                    src="../Recursos Graficos/botones-El facundo juego/Retrato de Sarmiento.png"
                     alt="Retrato de D.F. Sarmiento"
                 >
 
             </div>
+
 
             <figcaption>
 
@@ -119,9 +169,16 @@
 
 
 
-        <!-- MENÚ PRINCIPAL -->
-        <nav class="main-actions">
+        <!-- =========================================
+             MENÚ PRINCIPAL
+        ========================================== -->
 
+        <nav
+            class="main-actions"
+            aria-label="Menú principal"
+        >
+
+            <!-- Comenzar -->
             <button
                 class="menu-button primary"
                 type="button"
@@ -131,6 +188,7 @@
             </button>
 
 
+            <!-- Retomar -->
             <button
                 class="menu-button"
                 type="button"
@@ -140,6 +198,7 @@
             </button>
 
 
+            <!-- Créditos -->
             <button
                 class="menu-button"
                 type="button"
@@ -152,7 +211,10 @@
 
 
 
-        <!-- VENTANA MODAL -->
+        <!-- =========================================
+             VENTANA MODAL
+        ========================================== -->
+
         <div
             class="modal-layer"
             id="modal-layer"
@@ -169,15 +231,19 @@
                     class="modal-close"
                     type="button"
                     data-action="modal-close"
+                    aria-label="Cerrar"
                 >
                     ×
                 </button>
+
 
                 <h2 id="modal-title">
                     FACUNDO
                 </h2>
 
+
                 <p id="modal-text"></p>
+
 
                 <button
                     class="menu-button modal-ok"
@@ -193,31 +259,46 @@
 
 
 
-        <!-- MENSAJE -->
+        <!-- =========================================
+             MENSAJE INFERIOR
+        ========================================== -->
+
         <div
             class="screen-message"
             id="screen-message"
+            aria-live="polite"
         ></div>
 
     </main>
 
 
 
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
     <script>
 
         const modalLayer =
             document.getElementById("modal-layer");
 
+
         const modalTitle =
             document.getElementById("modal-title");
 
+
         const modalText =
             document.getElementById("modal-text");
+
 
         const message =
             document.getElementById("screen-message");
 
 
+
+        /* =========================================
+           ABRIR MODAL
+        ========================================== */
 
         function openModal(title, text) {
 
@@ -236,9 +317,15 @@
 
 
 
+        /* =========================================
+           CERRAR MODAL
+        ========================================== */
+
         function closeModal() {
 
-            modalLayer.classList.remove("is-open");
+            modalLayer.classList.remove(
+                "is-open"
+            );
 
             modalLayer.setAttribute(
                 "aria-hidden",
@@ -249,88 +336,185 @@
 
 
 
+        /* =========================================
+           MOSTRAR MENSAJE
+        ========================================== */
+
         function showMessage(text) {
 
             message.textContent = text;
 
             message.classList.add("show");
 
-            clearTimeout(window.messageTimer);
+            clearTimeout(
+                window.messageTimer
+            );
 
-            window.messageTimer = setTimeout(() => {
 
-                message.classList.remove("show");
+            window.messageTimer =
+                setTimeout(() => {
 
-            }, 2200);
+                    message.classList.remove(
+                        "show"
+                    );
+
+                }, 2200);
 
         }
 
 
 
+        /* =========================================
+           BOTONES
+        ========================================== */
+
         document
             .querySelectorAll("[data-action]")
             .forEach(button => {
 
-                button.addEventListener("click", () => {
+                button.addEventListener(
+                    "click",
+                    () => {
 
-                    const action =
-                        button.dataset.action;
-
-
-                    switch (action) {
-
-                        case "start":
-
-                            showMessage(
-                                "Preparando un nuevo camino..."
-                            );
-
-                            break;
+                        const action =
+                            button.dataset.action;
 
 
-                        case "resume":
 
-                            showMessage(
-                                "No hay una partida guardada todavía."
-                            );
-
-                            break;
+                        switch (action) {
 
 
-                        case "credits":
+                            /* -------------------------
+                               COMENZAR
+                            -------------------------- */
 
-                            openModal(
-                                "CRÉDITOS",
-                                "Facundo: Camino de la Barbarie · Proyecto educativo de videojuego histórico."
-                            );
+                            case "start":
 
-                            break;
+                                showMessage(
+                                    "Preparando un nuevo camino..."
+                                );
 
-
-                        case "modal-close":
-
-                            closeModal();
-
-                            break;
+                                break;
 
 
-                        default:
 
-                            break;
+                            /* -------------------------
+                               RETOMAR
+                            -------------------------- */
+
+                            case "resume":
+
+                                showMessage(
+                                    "No hay una partida guardada todavía."
+                                );
+
+                                break;
+
+
+
+                            /* -------------------------
+                               CRÉDITOS
+                            -------------------------- */
+
+                            case "credits":
+
+                                openModal(
+                                    "CRÉDITOS",
+                                    "Facundo: Camino de la Barbarie · Proyecto educativo de videojuego histórico."
+                                );
+
+                                break;
+
+
+
+                            /* -------------------------
+                               CONFIGURACIÓN
+                            -------------------------- */
+
+                            case "settings":
+
+                                openModal(
+                                    "CONFIGURACIÓN",
+                                    "La configuración estará disponible próximamente."
+                                );
+
+                                break;
+
+
+
+                            /* -------------------------
+                               PERFIL
+                            -------------------------- */
+
+                            case "profile":
+
+                                openModal(
+                                    "PERFIL",
+                                    "Perfil del jugador. Esta sección estará disponible próximamente."
+                                );
+
+                                break;
+
+
+
+                            /* -------------------------
+                               INICIO
+                            -------------------------- */
+
+                            case "home":
+
+                                showMessage(
+                                    "Ya estás en el menú principal."
+                                );
+
+                                break;
+
+
+
+                            /* -------------------------
+                               CERRAR
+                            -------------------------- */
+
+                            case "close":
+
+                                showMessage(
+                                    "Cerrar menú"
+                                );
+
+                                break;
+
+
+
+                            /* -------------------------
+                               CERRAR MODAL
+                            -------------------------- */
+
+                            case "modal-close":
+
+                                closeModal();
+
+                                break;
+
+                        }
 
                     }
-
-                });
+                );
 
             });
 
 
 
+        /* =========================================
+           CERRAR MODAL HACIENDO CLICK AFUERA
+        ========================================== */
+
         modalLayer.addEventListener(
             "click",
             event => {
 
-                if (event.target === modalLayer) {
+                if (
+                    event.target === modalLayer
+                ) {
 
                     closeModal();
 
@@ -341,11 +525,17 @@
 
 
 
+        /* =========================================
+           CERRAR CON ESCAPE
+        ========================================== */
+
         document.addEventListener(
             "keydown",
             event => {
 
-                if (event.key === "Escape") {
+                if (
+                    event.key === "Escape"
+                ) {
 
                     closeModal();
 
@@ -357,4 +547,5 @@
     </script>
 
 </body>
+
 </html>
