@@ -1,0 +1,1358 @@
+/* ==================================================
+   VARIABLES DE COLOR
+================================================== */
+
+:root {
+
+    --color-fondo-body: #6d321f;
+
+    --color-boton: #762d2a;
+    --color-boton-hover: #914039;
+    --color-boton-activo: #55201f;
+
+    --color-sombra-boton: #43151a;
+    --color-sombra-boton-activo: #351015;
+
+    --color-borde-texto: #35150e;
+
+    --color-texto-claro: #f7dfbd;
+    --color-texto-boton: #f8e3c5;
+
+}
+
+
+/* ==================================================
+   CONFIGURACIÓN GENERAL
+================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    width: 100%;
+    min-height: 100%;
+
+}
+
+
+body {
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    background-color: var(--color-fondo-body);
+
+    overflow-x: hidden;
+
+}
+
+
+/* ==================================================
+   MENÚ PRINCIPAL
+================================================== */
+
+.menu-principal {
+
+    position: relative;
+
+    width: 100%;
+    min-height: 100vh;
+
+    background-image: url("img/Fondo.menu.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+
+}
+
+
+/* ==================================================
+   BARRA SUPERIOR
+================================================== */
+
+.barra-superior {
+
+    position: absolute;
+
+    top: 20px;
+
+    left: 30px;
+    right: 30px;
+
+    display: flex;
+
+    justify-content: flex-end;
+    align-items: center;
+
+    z-index: 10;
+
+}
+
+
+/* ==================================================
+   ICONOS
+================================================== */
+
+.iconos-derecha {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.icono {
+
+    width: 55px;
+    height: 55px;
+
+    padding: 0;
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.icono img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+    transition:
+        transform 0.15s ease,
+        filter 0.15s ease;
+
+}
+
+
+/* Efecto al pasar el mouse */
+
+.icono:hover img {
+
+    transform: scale(1.08);
+
+}
+
+
+/* Efecto al presionar */
+
+.icono:active img {
+
+    transform: scale(0.92);
+    filter: brightness(0.70);
+
+}
+
+
+/* ==================================================
+   TÍTULO
+================================================== */
+
+.titulo {
+
+    position: relative;
+
+    z-index: 5;
+
+    text-align: center;
+
+    padding-top: clamp(40px, 8vh, 60px);
+
+    color: var(--color-texto-claro);
+
+    text-shadow:
+
+        3px 3px 0 var(--color-borde-texto),
+
+        -2px -2px 0 var(--color-borde-texto),
+
+        2px -2px 0 var(--color-borde-texto),
+
+        -2px 2px 0 var(--color-borde-texto);
+
+}
+
+
+.titulo h1 {
+
+    font-size: clamp(45px, 6vw, 85px);
+
+    line-height: 0.9;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+}
+
+
+.titulo h2 {
+
+    font-size: clamp(32px, 4vw, 58px);
+
+    line-height: 0.95;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* ==================================================
+   PERSONAJES
+================================================== */
+
+.personajes {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: clamp(160px, 24vh, 230px);
+
+    bottom: clamp(140px, 20vh, 190px);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 0 5%;
+
+    z-index: 2;
+
+}
+
+
+/* ==================================================
+   PERSONAJES LATERALES
+================================================== */
+
+.personaje {
+
+    width: 32%;
+
+    text-align: center;
+
+    color: var(--color-texto-claro);
+
+    text-shadow:
+
+        2px 2px 0 var(--color-borde-texto),
+
+        -1px -1px 0 var(--color-borde-texto);
+
+}
+
+
+/* ==================================================
+   RETRATOS
+================================================== */
+
+.retrato {
+
+    width: min(500px, 100%);
+
+    aspect-ratio: 1 / 1;
+
+    margin: 0 auto -22px;
+
+    background: transparent;
+
+    border: none;
+
+    border-radius: 0;
+
+    outline: none;
+
+    box-shadow: none;
+
+    overflow: visible;
+
+}
+
+
+.retrato img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+
+}
+
+
+/* ==================================================
+   TEXTO DE LOS PERSONAJES
+================================================== */
+
+.personaje h3 {
+
+    font-size: clamp(18px, 2vw, 28px);
+
+    line-height: 1.05;
+
+    font-weight: bold;
+
+    margin-top: 0;
+    margin-bottom: 2px;
+
+}
+
+
+.personaje p {
+
+    font-size: clamp(15px, 1.6vw, 23px);
+
+    margin-top: 0;
+
+    font-weight: bold;
+
+}
+
+
+/* ==================================================
+   PERSONAJE CENTRAL (silueta del usuario)
+================================================== */
+
+.personaje-central {
+
+    width: 30%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-self: flex-end;
+
+    transform: translateY(-35px);
+
+    z-index: 12;
+
+    pointer-events: none;
+
+}
+
+
+.personaje-central img {
+
+    width: 100%;
+
+    max-width: 300px;
+
+    display: block;
+
+    filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.45));
+
+}
+
+
+/* ==================================================
+   BOTONES DEL MENÚ
+================================================== */
+
+.botones-menu {
+
+    position: absolute;
+
+    z-index: 20;
+
+    left: 50%;
+
+    bottom: clamp(60px, 10vh, 90px);
+
+    transform: translateX(-50%);
+
+    width: min(350px, 88vw);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    align-items: center;
+
+}
+
+
+/* ==================================================
+   BOTONES
+================================================== */
+
+.boton-menu {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 58px;
+
+    border: none;
+
+    cursor: pointer;
+
+    background-color: var(--color-boton);
+
+    border-radius: 8px;
+
+    color: var(--color-texto-boton);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: clamp(19px, 2.4vw, 25px);
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    text-shadow:
+
+        2px 2px 0 var(--color-borde-texto);
+
+    box-shadow:
+
+        0 6px 0 var(--color-sombra-boton),
+
+        0 8px 12px rgba(0, 0, 0, 0.35);
+
+    transition:
+
+        transform 0.12s ease,
+
+        background-color 0.12s ease,
+
+        box-shadow 0.12s ease;
+
+}
+
+
+/* ==================================================
+   HOVER
+================================================== */
+
+.boton-menu:hover {
+
+    background-color: var(--color-boton-hover);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+
+        0 8px 0 var(--color-sombra-boton),
+
+        0 10px 14px rgba(0, 0, 0, 0.4);
+
+}
+
+
+/* ==================================================
+   PRESIONADO
+================================================== */
+
+.boton-menu:active {
+
+    background-color: var(--color-boton-activo);
+
+    transform: translateY(5px);
+
+    box-shadow:
+
+        0 1px 0 var(--color-sombra-boton-activo),
+
+        0 3px 6px rgba(0, 0, 0, 0.35);
+
+}
+
+
+/* ==================================================
+   TEXTO DEL BOTÓN
+================================================== */
+
+.boton-menu span {
+
+    position: relative;
+    z-index: 2;
+
+}
+
+
+/* ==================================================
+   MODALES
+================================================== */
+
+.modal {
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 50;
+
+    background: rgba(53, 21, 14, 0.65);
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+
+}
+
+
+.modal.activo {
+
+    opacity: 1;
+    pointer-events: auto;
+
+}
+
+
+.modal-contenido {
+
+    position: relative;
+
+    max-width: 440px;
+    width: 100%;
+
+    background-color: var(--color-boton);
+
+    border: 3px solid var(--color-borde-texto);
+
+    border-radius: 14px;
+
+    padding: 26px 24px 22px;
+
+    color: var(--color-texto-boton);
+
+    text-shadow: 1px 1px 0 var(--color-borde-texto);
+
+    transform: translateY(14px);
+
+    transition: transform 0.2s ease;
+
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.4);
+
+}
+
+
+.modal.activo .modal-contenido {
+
+    transform: translateY(0);
+
+}
+
+
+.modal-contenido h2 {
+
+    font-size: 22px;
+
+    margin-bottom: 10px;
+
+    letter-spacing: 1px;
+
+}
+
+
+.modal-contenido p {
+
+    font-size: 15px;
+
+    line-height: 1.55;
+
+    margin-bottom: 14px;
+
+}
+
+
+.modal-cerrar {
+
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 50%;
+
+    background-color: var(--color-sombra-boton);
+
+    color: var(--color-texto-boton);
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.modal-cerrar:hover {
+
+    background-color: var(--color-borde-texto);
+
+}
+
+
+.lista-creditos {
+
+    list-style: none;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+}
+
+
+.lista-creditos li {
+
+    padding: 4px 0;
+
+    border-bottom: 1px dashed rgba(248, 227, 197, 0.3);
+
+}
+
+
+/* ==================================================
+   CONTROLES DE AJUSTES
+================================================== */
+
+.control-fila {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.control-fila-columna {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+}
+
+
+.control-fila label,
+.control-fila > span {
+
+    font-size: 15px;
+
+    white-space: nowrap;
+
+}
+
+
+/* Sliders de volumen */
+
+.control-fila input[type="range"] {
+
+    flex: 1;
+
+    accent-color: var(--color-boton-hover);
+
+    cursor: pointer;
+
+}
+
+
+.valor-control {
+
+    min-width: 42px;
+
+    text-align: right;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+}
+
+
+/* Grupos de opciones (velocidad de texto, tamaño de letra) */
+
+.grupo-opciones {
+
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 6px;
+
+}
+
+
+.grupo-opciones button {
+
+    flex: 1;
+
+    padding: 8px 10px;
+
+    border: 2px solid var(--color-sombra-boton);
+
+    border-radius: 6px;
+
+    background-color: transparent;
+
+    color: var(--color-texto-boton);
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease;
+
+}
+
+
+.grupo-opciones button:hover {
+
+    background-color: rgba(248, 227, 197, 0.12);
+
+}
+
+
+.grupo-opciones button.seleccionado {
+
+    background-color: var(--color-boton-hover);
+
+    border-color: var(--color-texto-boton);
+
+}
+
+
+/* Botón de pantalla completa (on/off) */
+
+.boton-toggle {
+
+    padding: 8px 16px;
+
+    border: 2px solid var(--color-sombra-boton);
+
+    border-radius: 20px;
+
+    background-color: transparent;
+
+    color: var(--color-texto-boton);
+
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: background-color 0.15s ease;
+
+}
+
+
+.boton-toggle:hover {
+
+    background-color: rgba(248, 227, 197, 0.12);
+
+}
+
+
+.boton-toggle.activo {
+
+    background-color: var(--color-boton-hover);
+
+    border-color: var(--color-texto-boton);
+
+}
+
+
+/* ==================================================
+   MODAL DE PERFIL
+================================================== */
+
+.modal-contenido-ancho {
+
+    max-width: 680px;
+
+}
+
+
+/* --- Encabezado: avatar + datos --- */
+
+.perfil-encabezado {
+
+    display: flex;
+
+    gap: 18px;
+
+    align-items: flex-start;
+
+    padding-bottom: 18px;
+
+    margin-bottom: 18px;
+
+    border-bottom: 1px dashed rgba(248, 227, 197, 0.3);
+
+}
+
+
+.perfil-avatar {
+
+    width: 90px;
+    height: 110px;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background-color: rgba(53, 21, 14, 0.35);
+
+    border: 2px solid var(--color-sombra-boton);
+
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: center;
+
+    overflow: hidden;
+
+}
+
+
+.perfil-avatar svg {
+
+    width: 78%;
+
+}
+
+
+.perfil-datos h2 {
+
+    font-size: 22px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.perfil-cita {
+
+    font-size: 13px;
+
+    font-style: italic;
+
+    opacity: 0.85;
+
+    margin-bottom: 10px;
+
+}
+
+
+.perfil-lista-datos {
+
+    list-style: none;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+    margin-bottom: 10px;
+
+}
+
+
+.perfil-lista-datos strong {
+
+    font-weight: bold;
+
+}
+
+
+/* --- Cuerpo: dos columnas (progreso / logros) --- */
+
+.perfil-cuerpo {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 24px;
+
+}
+
+
+.perfil-columna h3 {
+
+    font-size: 15px;
+
+    margin-bottom: 8px;
+
+    padding-bottom: 6px;
+
+    border-bottom: 1px dashed rgba(248, 227, 197, 0.3);
+
+}
+
+
+.perfil-subtitulo {
+
+    margin-top: 16px;
+
+}
+
+
+.perfil-subtexto {
+
+    font-size: 13px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.perfil-barra {
+
+    width: 100%;
+
+    height: 10px;
+
+    border-radius: 6px;
+
+    background-color: rgba(53, 21, 14, 0.4);
+
+    overflow: hidden;
+
+}
+
+
+.perfil-barra-relleno {
+
+    height: 100%;
+
+    width: 0%;
+
+    background-color: var(--color-boton-hover);
+
+    transition: width 0.3s ease;
+
+}
+
+
+.perfil-porcentaje {
+
+    font-size: 12px;
+
+    text-align: right;
+
+    margin-top: 4px;
+
+}
+
+
+/* --- Relación con los personajes --- */
+
+.perfil-relaciones {
+
+    display: flex;
+
+    gap: 14px;
+
+}
+
+
+.perfil-personaje {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    flex: 1;
+
+}
+
+
+.perfil-personaje-retrato {
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+
+    border-radius: 8px;
+
+    margin-bottom: 6px;
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-color: var(--color-sombra-boton);
+
+    border: 2px solid var(--color-sombra-boton);
+
+}
+
+.retrato-sarmiento { background-image: url("img/Sarmiento.png"); }
+.retrato-quiroga   { background-image: url("img/Facundo.png"); }
+
+
+.perfil-personaje-nombre {
+
+    font-size: 12.5px;
+
+    font-weight: bold;
+
+}
+
+
+.perfil-personaje-estado {
+
+    font-size: 11.5px;
+
+    font-weight: bold;
+
+}
+
+.perfil-personaje-estado.confianza    { color: #8fd19e; }
+.perfil-personaje-estado.desconfianza { color: #e08a7d; }
+.perfil-personaje-estado.neutral      { color: var(--color-texto-boton); opacity: 0.7; }
+
+
+/* --- Logros --- */
+
+.perfil-logros {
+
+    list-style: none;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+.logro {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 8px;
+
+    border-radius: 8px;
+
+    background-color: rgba(53, 21, 14, 0.25);
+
+    opacity: 0.45;
+
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+
+}
+
+
+.logro.desbloqueado {
+
+    opacity: 1;
+
+    background-color: rgba(145, 64, 57, 0.35);
+
+}
+
+
+.logro-icono {
+
+    font-size: 18px;
+
+}
+
+
+.logro strong {
+
+    display: block;
+
+    font-size: 13px;
+
+}
+
+
+.logro small {
+
+    display: block;
+
+    font-size: 11px;
+
+    opacity: 0.8;
+
+}
+
+
+/* --- Controles de prueba (temporales, para el prototipo) --- */
+
+.perfil-demo {
+
+    margin-top: 20px;
+
+    padding-top: 14px;
+
+    border-top: 1px dashed rgba(248, 227, 197, 0.3);
+
+}
+
+
+.perfil-demo-titulo {
+
+    font-size: 12px;
+
+    opacity: 0.7;
+
+    margin-bottom: 8px;
+
+}
+
+
+.perfil-demo-botones {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+}
+
+
+@media (max-width: 560px) {
+
+    .perfil-cuerpo {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-encabezado {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+}
+
+
+/* ==================================================
+   AVISO FLOTANTE (toast)
+================================================== */
+
+.aviso {
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 30px;
+
+    transform: translate(-50%, 20px);
+
+    background-color: var(--color-borde-texto);
+    color: var(--color-texto-boton);
+
+    padding: 12px 20px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    z-index: 60;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: all 0.25s ease;
+
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+
+    max-width: 80vw;
+
+    text-align: center;
+
+}
+
+
+.aviso.activo {
+
+    opacity: 1;
+
+    transform: translate(-50%, 0);
+
+}
+
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 900px) {
+
+
+    .personajes {
+
+        top: clamp(140px, 20vh, 180px);
+
+        padding: 0 2%;
+
+    }
+
+
+    .retrato {
+
+        width: 400px;
+
+    }
+
+
+    /* En pantallas chicas el layout se apila y ya no queda lugar
+       para la silueta central sin tapar a los otros personajes */
+    .personaje-central {
+
+        display: none;
+
+    }
+
+
+    .botones-menu {
+
+        bottom: clamp(25px, 6vh, 35px);
+
+    }
+
+
+    .boton-menu {
+
+        height: 52px;
+
+    }
+
+}
+
+
+/* ==================================================
+   CELULARES
+================================================== */
+
+@media (max-width: 650px) {
+
+
+    .titulo {
+
+        padding-top: 90px;
+
+    }
+
+
+    .personajes {
+
+        position: relative;
+
+        top: auto;
+        bottom: auto;
+
+        flex-direction: column;
+
+        gap: 25px;
+
+        padding-top: 30px;
+
+    }
+
+
+    .personaje {
+
+        width: 80%;
+
+    }
+
+
+    .retrato {
+
+        width: 300px;
+
+    }
+
+
+    .botones-menu {
+
+        position: relative;
+
+        left: auto;
+        bottom: auto;
+
+        transform: none;
+
+        margin: 30px auto 40px;
+
+    }
+
+}

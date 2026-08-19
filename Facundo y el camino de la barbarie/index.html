@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Facundo: Camino de la Barbarie</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- ==================================================
+         MENÚ PRINCIPAL
+    ================================================== -->
+
+    <main class="menu-principal">
+
+
+        <!-- ==================================================
+             BARRA SUPERIOR
+        ================================================== -->
+
+        <header class="barra-superior">
+
+
+            <!-- ICONOS -->
+
+            <div class="iconos-derecha">
+
+
+                <!-- DIARIO -->
+
+                <button
+                    class="icono"
+                    type="button"
+                    title="Diario"
+                    data-modal="modal-diario"
+                >
+
+                    <img
+                        src="img/diario.png"
+                        alt="Diario"
+                    >
+
+                </button>
+
+
+                <!-- PERFIL -->
+
+                <button
+                    class="icono"
+                    type="button"
+                    title="Perfil"
+                    data-modal="modal-perfil"
+                >
+
+                    <img
+                        src="img/perfil.png"
+                        alt="Perfil"
+                    >
+
+                </button>
+
+
+                <!-- AJUSTES -->
+
+                <button
+                    class="icono"
+                    type="button"
+                    title="Ajustes"
+                    data-modal="modal-ajustes"
+                >
+
+                    <img
+                        src="img/boton (ajustes).png"
+                        alt="Ajustes"
+                    >
+
+                </button>
+
+
+                <!-- SALIR -->
+
+                <button
+                    class="icono"
+                    type="button"
+                    title="Salir"
+                    data-modal="modal-salir"
+                >
+
+                    <img
+                        src="img/boton (cerrar).png"
+                        alt="Salir"
+                    >
+
+                </button>
+
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ==================================================
+             TÍTULO
+        ================================================== -->
+
+        <section class="titulo">
+
+
+            <h1>
+                FACUNDO:
+            </h1>
+
+
+            <h2>
+                CAMINO DE LA<br>
+                BARBARIE
+            </h2>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             PERSONAJES
+        ================================================== -->
+
+        <section class="personajes">
+
+
+            <!-- ==================================================
+                 FACUNDO
+            ================================================== -->
+
+            <div class="personaje personaje-izquierda">
+
+
+                <div class="retrato">
+
+                    <img
+                        src="img/Facundo.png"
+                        alt="Facundo Quiroga"
+                    >
+
+                </div>
+
+
+                <h3>
+                    FACUNDO QUIROGA
+                </h3>
+
+
+                <p>
+                    (BANDO FEDERAL)
+                </p>
+
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 PERSONAJE CENTRAL (silueta del usuario)
+            ================================================== -->
+
+            <div class="personaje-central">
+
+                <img
+                    src="img/protagonista.png"
+                    alt="Tu personaje"
+                >
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 SARMIENTO
+            ================================================== -->
+
+            <div class="personaje personaje-derecha">
+
+
+                <div class="retrato">
+
+                    <img
+                        src="img/Sarmiento.png"
+                        alt="Domingo F. Sarmiento"
+                    >
+
+                </div>
+
+
+                <h3>
+                    D. F. SARMIENTO
+                </h3>
+
+
+                <p>
+                    (BANDO UNITARIO)
+                </p>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             BOTONES PRINCIPALES
+        ================================================== -->
+
+        <section class="botones-menu">
+
+
+            <button
+                class="boton-menu boton-nueva"
+                type="button"
+                id="btn-nueva-partida"
+            >
+
+                <span>
+                    COMENZAR CAMINO
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="boton-menu boton-cargar"
+                type="button"
+                id="btn-cargar-partida"
+            >
+
+                <span>
+                    RETOMAR CAMINO
+                </span>
+
+            </button>
+
+
+
+            <button
+                class="boton-menu boton-creditos"
+                type="button"
+                data-modal="modal-creditos"
+            >
+
+                <span>
+                    CRÉDITOS
+                </span>
+
+            </button>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ==================================================
+         MODALES
+    ================================================== -->
+
+    <div class="modal" id="modal-ajustes">
+        <div class="modal-contenido">
+            <button class="modal-cerrar" type="button" data-cerrar>&times;</button>
+            <h2>Ajustes</h2>
+
+            <!-- VOLUMEN DE MÚSICA -->
+            <div class="control-fila">
+                <label for="slider-musica">Música</label>
+                <input type="range" id="slider-musica" min="0" max="100" value="70">
+                <span class="valor-control" id="valor-musica">70%</span>
+            </div>
+
+            <!-- VOLUMEN DE EFECTOS DE SONIDO -->
+            <div class="control-fila">
+                <label for="slider-sonido">Efectos de sonido</label>
+                <input type="range" id="slider-sonido" min="0" max="100" value="80">
+                <span class="valor-control" id="valor-sonido">80%</span>
+            </div>
+
+            <!-- VELOCIDAD DEL TEXTO -->
+            <div class="control-fila control-fila-columna">
+                <span>Velocidad de texto</span>
+                <div class="grupo-opciones" id="grupo-velocidad" data-config="velocidadTexto">
+                    <button type="button" data-valor="lenta">Lenta</button>
+                    <button type="button" data-valor="normal" class="seleccionado">Normal</button>
+                    <button type="button" data-valor="instantanea">Instantánea</button>
+                </div>
+            </div>
+
+            <!-- TAMAÑO DE LETRA -->
+            <div class="control-fila control-fila-columna">
+                <span>Tamaño de letra</span>
+                <div class="grupo-opciones" id="grupo-fuente" data-config="tamanoFuente">
+                    <button type="button" data-valor="chica">A-</button>
+                    <button type="button" data-valor="normal" class="seleccionado">A</button>
+                    <button type="button" data-valor="grande">A+</button>
+                </div>
+            </div>
+
+            <!-- PANTALLA COMPLETA -->
+            <div class="control-fila">
+                <span>Pantalla completa</span>
+                <button class="boton-toggle" type="button" id="btn-pantalla-completa">Activar</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal" id="modal-diario">
+        <div class="modal-contenido">
+            <button class="modal-cerrar" type="button" data-cerrar>&times;</button>
+            <h2>Diario</h2>
+            <p>Acá van a quedar registrados los fragmentos del libro y los capítulos que ya recorriste.</p>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-perfil">
+        <div class="modal-contenido modal-contenido-ancho">
+            <button class="modal-cerrar" type="button" data-cerrar>&times;</button>
+
+            <!-- ENCABEZADO: AVATAR + DATOS BÁSICOS -->
+            <div class="perfil-encabezado">
+
+                <div class="perfil-avatar">
+                    <svg viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="38" r="24" fill="var(--color-texto-boton)" opacity="0.85"/>
+                        <path d="M14 130c2-34 16-56 36-56s34 22 36 56z" fill="var(--color-texto-boton)" opacity="0.85"/>
+                    </svg>
+                </div>
+
+                <div class="perfil-datos">
+
+                    <h2 id="perfil-nombre">Estudiante</h2>
+
+                    <p class="perfil-cita">"El conocimiento es el primer paso hacia el cambio."</p>
+
+                    <ul class="perfil-lista-datos">
+                        <li><strong>Capítulo actual:</strong> <span id="perfil-capitulo">Capítulo 1 - Prólogo</span></li>
+                        <li><strong>Tiempo de juego:</strong> <span id="perfil-tiempo">00:00:00</span></li>
+                        <li><strong>Fecha de inicio:</strong> <span id="perfil-fecha">—</span></li>
+                    </ul>
+
+                    <button class="boton-toggle" type="button" id="btn-cambiar-avatar">Cambiar avatar</button>
+
+                </div>
+
+            </div>
+
+            <!-- CUERPO: PROGRESO + LOGROS -->
+            <div class="perfil-cuerpo">
+
+                <!-- PROGRESO DE LA HISTORIA -->
+                <div class="perfil-columna">
+
+                    <h3>Progreso de la historia</h3>
+
+                    <p class="perfil-subtexto">Has tomado <span id="perfil-decisiones">0</span> decisiones</p>
+
+                    <div class="perfil-barra">
+                        <div class="perfil-barra-relleno" id="perfil-barra-relleno"></div>
+                    </div>
+                    <p class="perfil-porcentaje" id="perfil-porcentaje">0%</p>
+
+                    <h3 class="perfil-subtitulo">Relación con los personajes</h3>
+
+                    <div class="perfil-relaciones">
+
+                        <div class="perfil-personaje">
+                            <div class="perfil-personaje-retrato retrato-sarmiento"></div>
+                            <span class="perfil-personaje-nombre">Sarmiento</span>
+                            <span class="perfil-personaje-estado" id="relacion-sarmiento">Neutral</span>
+                        </div>
+
+                        <div class="perfil-personaje">
+                            <div class="perfil-personaje-retrato retrato-quiroga"></div>
+                            <span class="perfil-personaje-nombre">Quiroga</span>
+                            <span class="perfil-personaje-estado" id="relacion-quiroga">Neutral</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- LOGROS -->
+                <div class="perfil-columna">
+
+                    <h3>Logros</h3>
+
+                    <ul class="perfil-logros" id="perfil-logros">
+
+                        <li class="logro" data-logro="primeros-pasos">
+                            <span class="logro-icono">✦</span>
+                            <span>
+                                <strong>Primeros pasos</strong>
+                                <small>Tomá tu primera decisión.</small>
+                            </span>
+                        </li>
+
+                        <li class="logro" data-logro="decisor">
+                            <span class="logro-icono">✦</span>
+                            <span>
+                                <strong>Decisor</strong>
+                                <small>Tomá 10 decisiones importantes.</small>
+                            </span>
+                        </li>
+
+                        <li class="logro" data-logro="explorador">
+                            <span class="logro-icono">✦</span>
+                            <span>
+                                <strong>Explorador</strong>
+                                <small>Llegá al Capítulo 2.</small>
+                            </span>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+    <div class="modal" id="modal-salir">
+        <div class="modal-contenido">
+            <button class="modal-cerrar" type="button" data-cerrar>&times;</button>
+            <h2>¿Salir del juego?</h2>
+            <p>Esta acción cerraría la aplicación. En este prototipo web solo simula el cierre.</p>
+            <button class="boton-menu boton-cargar" type="button" data-cerrar style="width:100%;">
+                <span>Volver al menú</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-creditos">
+        <div class="modal-contenido">
+            <button class="modal-cerrar" type="button" data-cerrar>&times;</button>
+            <h2>Créditos</h2>
+            <p>Facundo: Camino de la Barbarie — Escuela Técnica N° 20, Polo Educativo Mataderos.</p>
+            <ul class="lista-creditos">
+                <li><strong>Diseño de producto (PMV):</strong> Brenda Huanca, Daiana Condori</li>
+                <li><strong>Sistema de diseño (UX/UI):</strong> Brenda Huanca, Yuri Vargas</li>
+                <li><strong>Organización Scrum y Product Backlog:</strong> Daiana Condori, Ciro Roja</li>
+                <li><strong>Prototipo interactivo (HTML/CSS/JS):</strong> Ciro Roja, Alexander Cataño</li>
+                <li><strong>Seguimiento y documentación:</strong> Alexander Cataño, Yuri Vargas</li>
+                <li><strong>Docentes:</strong> Camila Lambertucci, Sebastián Anderson</li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- ==================================================
+         AVISO FLOTANTE (toast)
+    ================================================== -->
+
+    <div class="aviso" id="aviso"></div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
