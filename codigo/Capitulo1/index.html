@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facundo — Capítulo Uno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="game-shell">
+  <header class="game-header">
+    <h1 class="game-title">Facundo</h1>
+    <p class="game-subtitle">Capítulo Uno — Los rastros del Tigre</p>
+  </header>
+
+  <div class="stage-frame">
+    <div class="stage" id="stage" aria-live="polite">
+      <div class="stage-bg" id="bgA"></div>
+      <div class="stage-bg" id="bgB"></div>
+      <div class="vignette"></div>
+
+      <img id="portrait" class="portrait portrait-left" alt="" />
+
+      <!-- Nuevo HUD basado en tu captura -->
+      <div class="hud show" id="hud">
+        <span class="hud-label">Civilización: <span id="valCiv">0</span></span>
+        <span class="hud-label" style="color: var(--gold);">Quiroga: <span id="valQui">0</span></span>
+        <span class="hud-label" style="color: var(--civil-bright);">Investigación: <span id="valInv">0</span></span>
+      </div>
+
+      <div class="dialogue-box" id="dialogueBox">
+        <span class="nameplate" id="nameplate"></span>
+        <p class="prompt-text" id="promptText" style="display:none;"></p>
+        <p class="dialogue-text" id="dialogueText"></p>
+        <div class="choices" id="choices" style="display:none;"></div>
+        <div class="continue-row" id="continueRow">
+          <button class="continue-btn" id="continueBtn" type="button">Continuar ▸</button>
+        </div>
+      </div>
+
+      <div class="overlay-screen" id="startScreen">
+        <h2 class="overlay-title">Capítulo Uno</h2>
+        <p class="overlay-sub">La noticia de los movimientos de Facundo Quiroga llega a tus oídos. Es hora de reunir información.</p>
+       <button class="big-btn" id="startBtn" type="button">
+    Comenzar la partida
+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="java.js"></script>
+<script src="escena5.js"></script>
+<script src="escena6.js"></script>
+<script src="escena7.js"></script>
+</body>
+</html>
