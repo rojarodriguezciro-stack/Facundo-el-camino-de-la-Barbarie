@@ -1,0 +1,298 @@
+:root {
+  /* Paleta unificada con el menú principal para mantener la identidad visual entre pantallas. */
+  --bg-night: #2a120b;
+  --parchment: #f7dfbd;
+  --parchment-edge: #f8e3c5;
+  --ink: #35150e;
+  --ink-soft: #43151a;
+  --leather: #762d2a;
+  --leather-dark: #55201f;
+  --gold: #c9973f;
+  --gold-bright: #e7bd6f;
+  --civil: #3f6b52;
+  --civil-bright: #63a17e;
+  --barbarie: #8a2f2b;
+  --barbarie-bright: #c1443c;
+  --radius: 10px;
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-body: Georgia, "Times New Roman", serif;
+}
+
+/* Hace que los tamaños incluyan bordes y padding para facilitar el control del diseño. */
+* { box-sizing: border-box; }
+
+/* Configuración general de la página y ambientación oscura del juego. */
+body {
+  margin: 0;
+  background: var(--bg-night);
+  background-image: radial-gradient(ellipse at center, #241a12 0%, #0c0906 78%);
+  color: var(--parchment);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.game-shell {
+  /* Limita el ancho para que la escena conserve proporciones cómodas en pantallas grandes. */ max-width: 1300px; margin: 0 auto; }
+.game-header { text-align: center; margin-bottom: 1rem; }
+.game-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.9rem);
+  color: var(--gold-bright);
+  letter-spacing: 1px;
+  margin: 0 0 .2rem;
+  text-shadow: 0 2px 0 #000, 0 0 22px rgba(201,151,63,.35);
+}
+.game-subtitle { font-style: italic; color: #c9b88f; font-size: 1rem; margin: 0; }
+
+.stage-frame {
+  background: linear-gradient(160deg, var(--leather), var(--leather-dark));
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid #5a4227;
+  box-shadow: 0 18px 40px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+/* El escenario usa una relación 16:9 para conservar una composición similar a una pantalla de videojuego. */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  min-height: 480px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Se utilizan dos fondos para poder realizar transiciones sin cambiar bruscamente la escena. */
+.stage-bg {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity .7s ease;
+}
+.stage-bg.active { opacity: 1; }
+
+.vignette {
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 130px rgba(0,0,0,.7), inset 0 -40px 90px rgba(0,0,0,.55);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Los personajes se colocan sobre el fondo y se mantienen separados del texto mediante capas. */
+.portrait {
+  position: absolute;
+  bottom: 0;
+  height: 85%;
+  max-width: 65%;
+  object-fit: contain;
+  object-position: bottom;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 14px 18px rgba(0,0,0,.55));
+  display: none;
+  transition: opacity .35s ease;
+  z-index: 3;
+}
+.portrait-left { left: 2%; }
+.portrait-right { right: 2%; }
+
+/* El HUD queda sobre la escena para mostrar el estado de las decisiones sin interrumpir la narración. */
+.hud {
+  position: absolute;
+  top: 10px; left: 10px; right: 10px;
+  display: none;
+  align-items: center;
+  gap: 15px;
+  z-index: 5;
+  background: rgba(0,0,0,0.6);
+  padding: 8px 12px;
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  width: fit-content;
+}
+.hud.show { display: flex; }
+.hud-label {
+  font-family: var(--font-display);
+  font-size: .8rem;
+  color: var(--parchment);
+  text-shadow: 0 1px 2px #000;
+  white-space: nowrap;
+}
+
+/* La caja ocupa la parte inferior, siguiendo el patrón habitual de una novela visual. */
+.dialogue-box {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  background: linear-gradient(180deg, rgba(233,219,178,.97), rgba(219,199,148,.97));
+  border-top: 3px solid var(--gold);
+  padding: .9rem 1.1rem 1rem;
+  min-height: 32%;
+  display: flex;
+  flex-direction: column;
+  z-index: 4;
+}
+
+.nameplate {
+  align-self: flex-start;
+  background: var(--leather);
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  font-family: var(--font-display);
+  font-size: .85rem;
+  padding: .15rem .7rem;
+  border-radius: 4px;
+  transform: translateY(-1.3rem);
+  display: none;
+}
+
+.dialogue-text {
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  line-height: 1.4;
+  color: var(--ink);
+  flex: 1;
+  margin-top: -0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.continue-row { display: flex; justify-content: flex-end; margin-top: 0; }
+.continue-btn {
+  visibility: hidden;
+  background: var(--leather);
+  color: var(--gold-bright);
+  border: 1px solid var(--gold);
+  font-family: var(--font-display);
+  font-size: .85rem;
+  padding: .35rem .9rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.continue-btn:hover { background: #4a3420; }
+
+/* Las opciones se apilan verticalmente para que sean fáciles de identificar y seleccionar. */
+.choices { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0; }
+.choice-btn {
+  text-align: left;
+  background: var(--parchment-edge);
+  border: none;
+  border-left: 5px solid var(--gold);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: .4rem .6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform .15s ease, background-color .15s ease;
+}
+.choice-btn:hover { background: #e6d5a4; transform: translateX(4px); }
+.prompt-text {
+  font-family: var(--font-display);
+  font-size: .95rem;
+  color: var(--ink-soft);
+  margin: 0 0 .3rem;
+}
+
+.overlay-screen {
+  position: absolute; inset: 0; z-index: 6;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 1rem; padding: 1.5rem;
+  background: linear-gradient(180deg, rgba(10,7,5,.55), rgba(10,7,5,.86));
+}
+.overlay-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4.5vw, 2.3rem);
+  color: var(--gold-bright);
+  text-shadow: 0 2px 0 #000;
+  margin: 0;
+}
+.overlay-sub { max-width: 38em; font-size: 1.05rem; line-height: 1.6; color: #efe3c4; font-style: italic; }
+.big-btn {
+  font-family: var(--font-display);
+  background: var(--gold);
+  color: #241408;
+  border: none;
+  padding: .75rem 1.8rem;
+  font-size: 1.05rem;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #7a5a24;
+}
+.big-btn:hover { background: var(--gold-bright); }
+
+/* PANTALLA FINAL DEL CAPÍTULO: reutiliza los mismos estilos para mantener consistencia visual. */
+.ending-card{
+  background:var(--parchment);
+  color:var(--ink);
+  border:2px solid var(--gold);
+  border-radius:10px;
+  padding:1.3rem 1.5rem;
+  max-width:34em;
+  text-align:left;
+}
+.ending-title{
+  font-family:var(--font-display);
+  font-size:1.5rem;
+  margin:0 0 .6rem;
+  color:var(--gold-bright);
+}
+.ending-body p{line-height:1.55;margin:.5rem 0;font-size:1.02rem;}
+.ending-score{
+  font-family:var(--font-display);
+  font-size:.85rem;
+  color:var(--ink-soft);
+  margin-top:.9rem;
+  border-top:1px dashed #a8905c;
+  padding-top:.6rem;
+}
+.ending-actions{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  margin-top:1rem;
+}
+.ending-actions .big-btn{margin-top:0;}
+.big-btn.secondary{
+  background:var(--leather);
+  color:var(--gold-bright);
+  border:1px solid var(--gold);
+  box-shadow:0 4px 0 var(--leather-dark);
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+}
+.big-btn.secondary:hover{background:#4a3420;}
+.big-btn.secondary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--leather-dark);}
+
+/* VENTANA DE CARTA: presenta información narrativa sin mezclarla con la caja de diálogo. */
+.letter-card{
+  background:var(--parchment);
+  color:var(--ink);
+  border:2px solid var(--gold);
+  border-radius:10px;
+  padding:1.3rem 1.6rem;
+  max-width:32em;
+  text-align:left;
+  font-style:italic;
+}
+.letter-title{
+  font-family:var(--font-display);
+  font-style:normal;
+  font-size:1.3rem;
+  margin:0 0 .7rem;
+  color:var(--leather);
+  border-bottom:1px dashed #a8905c;
+  padding-bottom:.5rem;
+}
+.letter-body p{line-height:1.6;margin:.5rem 0;}
+.letter-signature{
+  margin-top:1rem;
+  text-align:right;
+  font-weight:bold;
+  font-style:normal;
+  color:var(--leather);
+}
+
+@media (max-width:520px){
+  .dialogue-box{min-height:40%;}
+}
