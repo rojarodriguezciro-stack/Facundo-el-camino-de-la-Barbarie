@@ -3,12 +3,36 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Facundo: Camino de la Barbarie</title>
-
     <link rel="stylesheet" href="MenúPrincipal.css">
+    <style>
+        /* =========================================================
+           REDISEÑO Y CORRECCIÓN DE ÍCONOS (CASA Y PERFIL)
+           ========================================================= */
+
+        /* SVG Home Icon */
+        .svg-icon-home {
+            width: 32px;
+            height: 32px;
+            fill: #d6a871;
+            filter: drop-shadow(2px 2px 0px #160b0d) 
+                    drop-shadow(-1px -1px 0px #160b0d) 
+                    drop-shadow(1px -1px 0px #160b0d) 
+                    drop-shadow(-1px 1px 0px #160b0d);
+        }
+
+        /* SVG User Profile Icon */
+        .svg-icon-user {
+            width: 30px;
+            height: 30px;
+            fill: #d6a871;
+            filter: drop-shadow(2px 2px 0px #160b0d) 
+                    drop-shadow(-1px -1px 0px #160b0d) 
+                    drop-shadow(1px -1px 0px #160b0d) 
+                    drop-shadow(-1px 1px 0px #160b0d);
+        }
+    </style>
 </head>
 
 
@@ -35,14 +59,16 @@
 
             <div class="topbar-left">
 
-                <!-- Botón inicio -->
+                <!-- Botón inicio (Casa Corregida) -->
                 <button
                     class="icon-button"
                     type="button"
                     data-action="home"
                     aria-label="Inicio"
                 >
-                    <span class="pixel-home"></span>
+                    <svg class="svg-icon-home" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
                 </button>
 
 
@@ -62,14 +88,16 @@
 
             <div class="topbar-right">
 
-                <!-- Botón perfil -->
+                <!-- Botón perfil (Perfil de Usuario Corregido) -->
                 <button
                     class="icon-button"
                     type="button"
                     data-action="profile"
                     aria-label="Perfil"
                 >
-                    <span class="pixel-user"></span>
+                    <svg class="svg-icon-user" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
                 </button>
 
 
