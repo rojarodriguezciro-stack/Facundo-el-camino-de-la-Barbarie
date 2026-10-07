@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capítulo 3 - El Último Viaje</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="game-container">
+    <div class="background-layer bg-a" id="bgA"></div>
+    <div class="background-layer bg-b" id="bgB"></div>
+    <div class="vignette"></div>
+
+    <header class="chapter-header">
+        <div class="chapter-title">
+            <span>CAPÍTULO 3</span>
+            <strong>EL ÚLTIMO VIAJE</strong>
+        </div>
+        <div class="stats-hud" aria-label="Indicadores del recorrido">
+            <div class="stat"><span class="stat-icon">⚔</span><span class="stat-name">Civilización</span><strong id="statCivilizacion">0</strong></div>
+            <div class="stat"><span class="stat-icon">♟</span><span class="stat-name">Quiroga</span><strong id="statQuiroga">0</strong></div>
+            <div class="stat"><span class="stat-icon">⌕</span><span class="stat-name">Investigación</span><strong id="statInvestigacion">0</strong></div>
+        </div>
+    </header>
+
+    <div class="scene-title" id="sceneTitle"></div>
+
+    <div class="chapter-progress" aria-hidden="true">
+        <div id="progressBar"></div>
+    </div>
+
+    <div class="character-container">
+        <img id="character" class="character" src="" alt="">
+    </div>
+
+    <section class="dialogue-container" id="dialogueContainer">
+        <div class="dialogue-name"><span id="characterName">Narrador</span></div>
+        <div class="dialogue-content">
+            <p id="dialogueText"></p>
+            <section class="choices-container" id="choices"></section>
+            <span class="continue-indicator" id="continueIndicator">▷</span>
+        </div>
+        <button class="continue-button" id="continueButton" type="button">CONTINUAR</button>
+    </section>
+
+    <div class="overlay start-overlay" id="startOverlay">
+        <div class="overlay-box">
+            <p class="overlay-chapter">CAPÍTULO 3</p>
+            <h1>EL ÚLTIMO VIAJE</h1>
+            <p>Después de los acontecimientos del capítulo anterior, Facundo emprende su último viaje.</p>
+            <p class="small-note">Esta vez, los rumores, las advertencias y las decisiones del camino conducirán hacia Barranca Yacó.</p>
+            <button id="startButton" type="button">COMENZAR CAPÍTULO</button>
+        </div>
+    </div>
+
+    <div class="overlay ending-overlay hidden" id="endingOverlay" aria-hidden="true">
+        <div class="ending-box">
+            <p class="overlay-chapter">CAPÍTULO 3 · FINAL</p>
+            <h1 id="endingTitle">EL LEGADO</h1>
+            <p id="endingText"></p>
+
+            <div class="legacy-block">
+                <span class="legacy-label">UNA ÚLTIMA REFLEXIÓN</span>
+                <p id="reflectionText"></p>
+            </div>
+
+            <div class="final-stats">
+                <div class="final-stat"><span>Civilización</span><strong id="finalCivilizacion">0</strong></div>
+                <div class="final-stat"><span>Quiroga</span><strong id="finalQuiroga">0</strong></div>
+                <div class="final-stat"><span>Investigación</span><strong id="finalInvestigacion">0</strong></div>
+            </div>
+
+            <button id="menuButton" type="button">VOLVER AL MENÚ</button>
+        </div>
+    </div>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
