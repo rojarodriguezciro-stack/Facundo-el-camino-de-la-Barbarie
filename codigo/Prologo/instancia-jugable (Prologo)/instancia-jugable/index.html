@@ -131,3 +131,51 @@
   <script src="script.js" defer></script>
 </body>
 </html>
+    <!-- Tutorial interactivo del prólogo -->
+    <div
+      id="tutorialOverlay"
+      class="tutorial-overlay hidden"
+      role="dialog"
+      aria-labelledby="tutorialTitle"
+      aria-describedby="tutorialText"
+    >
+      <!-- Flecha pixel art -->
+      <img
+        id="tutorialArrow"
+        class="tutorial-arrow"
+        src="imagenes/flecha%20de%20tutorial.jpg"
+        alt=""
+        aria-hidden="true"
+      />
+
+      <!-- Panel de instrucciones -->
+      <div class="tutorial-card">
+        <p id="tutorialProgress" class="tutorial-progress">
+          TUTORIAL
+        </p>
+
+        <h2 id="tutorialTitle">Cómo jugar</h2>
+
+        <p id="tutorialText">
+          Aprendé a utilizar los controles antes de comenzar la aventura.
+        </p>
+
+        <div class="tutorial-actions">
+          <button
+            id="tutorialSkip"
+            type="button"
+            class="small-btn"
+          >
+            Omitir tutorial
+          </button>
+
+          <button
+            id="tutorialNext"
+            type="button"
+            class="continue-btn"
+          >
+            Siguiente
+          </button>
+        </div>
+      </div>
+    </div>
