@@ -18,13 +18,23 @@ const continueButton = document.getElementById("continueButton");
 const continueIndicator = document.getElementById("continueIndicator");
 const startOverlay = document.getElementById("startOverlay");
 const startButton = document.getElementById("startButton");
+const menuStartButton = document.getElementById("menuStartButton");
 const endingOverlay = document.getElementById("endingOverlay");
 const endingTitle = document.getElementById("endingTitle");
 const endingText = document.getElementById("endingText");
 const reflectionText = document.getElementById("reflectionText");
 const menuButton = document.getElementById("menuButton");
+const backToMenuButton = document.getElementById("backToMenuButton");
 const sceneTitle = document.getElementById("sceneTitle");
 const progressBar = document.getElementById("progressBar");
+
+
+const sharedMenuSettings = window.FacundoProgress && window.FacundoProgress.getSharedSettings
+    ? window.FacundoProgress.getSharedSettings()
+    : { font: "font-serif", size: "size-medium", speedPercent: 70 };
+
+document.body.classList.remove("font-serif", "font-sans", "font-dyslexic", "font-pixel", "size-small", "size-medium", "size-large");
+document.body.classList.add(sharedMenuSettings.font, sharedMenuSettings.size);
 
 /* =========================================================
    CLAVES DE LOCAL STORAGE
@@ -555,7 +565,7 @@ function typeText(text) {
             }
         }
 
-    }, 16);
+    }, Math.min(80, Math.max(5, Math.round(80 - (0.75 * sharedMenuSettings.speedPercent)))));
 
     if (continueIndicator) {
         continueIndicator.classList.remove("visible");
@@ -782,6 +792,7 @@ function getReflection() {
 function showEnding() {
 
     saveStats();
+    if (window.FacundoProgress) window.FacundoProgress.markCompleted();
 
     endingTitle.textContent =
         "EL LEGADO";
@@ -838,6 +849,7 @@ function showEnding() {
 
 function iniciarCapitulo() {
 
+    if (window.FacundoProgress) window.FacundoProgress.setCurrentStep("capitulo3");
     startOverlay.classList.add(
         "hidden"
     );
@@ -854,9 +866,11 @@ function iniciarCapitulo() {
    ========================================================= */
 
 function volverAlMenu() {
-
-    window.location.href =
-        "../Men%23U00faPrincipal.html";
+    if (window.FacundoProgress) {
+        window.FacundoProgress.openMenu();
+    } else {
+        window.location.href = "../Men%C3%BAPrincipal-contenido.html";
+    }
 }
 
 /* =========================================================
@@ -868,6 +882,10 @@ startButton.addEventListener(
     iniciarCapitulo
 );
 
+if (menuStartButton) {
+    menuStartButton.addEventListener("click", volverAlMenu);
+}
+
 continueButton.addEventListener(
     "click",
     next
@@ -877,6 +895,14 @@ menuButton.addEventListener(
     "click",
     volverAlMenu
 );
+
+if (backToMenuButton) {
+    backToMenuButton.addEventListener("click", volverAlMenu);
+}
+
+if (window.FacundoProgress) {
+    window.FacundoProgress.setCurrentStep("capitulo3");
+}
 
 /* =========================================================
    CONTROLES DE TECLADO

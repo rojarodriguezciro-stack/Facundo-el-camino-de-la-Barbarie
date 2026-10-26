@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
 :root {
     --ink: #120b0a;
     --dark-red: #3b0e18;
@@ -136,3 +138,39 @@ button { font:inherit; }
 }
 
 @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
+
+
+/* Acceso al menú durante todo el capítulo */
+.menu-shortcut {
+    position: fixed;
+    z-index: 30;
+    top: clamp(82px, 7.5vh, 108px);
+    right: clamp(22px, 3vw, 48px);
+    min-height: 34px;
+    padding: 6px 12px;
+    border: 2px solid var(--beige-border);
+    border-radius: 4px;
+    color: var(--cream-light);
+    background: rgba(59, 14, 24, .94);
+    box-shadow: 0 4px 10px rgba(0,0,0,.45);
+    cursor: pointer;
+    font-family: "Arial Black", Impact, sans-serif;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .5px;
+    pointer-events: auto;
+}
+.menu-shortcut:hover { background: var(--red-light); border-color: var(--gold); }
+@media (max-width: 680px) {
+    .menu-shortcut { top: 77px; right: 15px; min-height: 30px; padding: 4px 8px; font-size: 10px; }
+}
+
+
+/* Preferencias globales seleccionadas desde el menú principal. */
+body.font-serif, body.font-serif * { font-family: Georgia, "Times New Roman", serif; }
+body.font-sans, body.font-sans * { font-family: Arial, Helvetica, sans-serif; }
+body.font-dyslexic, body.font-dyslexic * { font-family: "OpenDyslexic", "Comic Sans MS", sans-serif; }
+body.font-pixel, body.font-pixel * { font-family: "Press Start 2P", "Courier New", monospace; }
+body.size-small #dialogueText { font-size: clamp(14px, 1.25vw, 18px); }
+body.size-medium #dialogueText { font-size: clamp(17px, 1.55vw, 23px); }
+body.size-large #dialogueText { font-size: clamp(20px, 1.8vw, 27px); }

@@ -158,15 +158,6 @@ const state = {
 };
 
 const dom = {
-    startScreen: document.getElementById('startScreen'),
-  startBtn: document.getElementById('startBtn'),
-    tutorialOverlay: document.getElementById('tutorialOverlay'),
-  tutorialArrow: document.getElementById('tutorialArrow'),
-  tutorialProgress: document.getElementById('tutorialProgress'),
-  tutorialTitle: document.getElementById('tutorialTitle'),
-  tutorialText: document.getElementById('tutorialText'),
-  tutorialNext: document.getElementById('tutorialNext'),
-  tutorialSkip: document.getElementById('tutorialSkip'),
   bgA: document.getElementById('bgA'),
   bgB: document.getElementById('bgB'),
   portrait: document.getElementById('portrait'),
@@ -185,9 +176,11 @@ const dom = {
   dialogueBox: document.getElementById('dialogueBox'),
   startScreen: document.getElementById('startScreen'),
   startBtn: document.getElementById('startBtn'),
+  btnMenuStart: document.getElementById('btnMenuStart'),
   stage: document.getElementById('stage'),
 
   btnSettings: document.getElementById('btnSettings'),
+  btnMenu: document.getElementById('btnMenu'),
   btnHistory: document.getElementById('btnHistory'),
   modalSettings: document.getElementById('modalSettings'),
   modalHistory: document.getElementById('modalHistory'),
@@ -208,56 +201,18 @@ let countdownTimer = null;
 let isWaitingForChoice = false;
 
 let currentPortraitUrl = null;
-/* --- TUTORIAL INTERACTIVO DEL PRÓLOGO --- */
-
-let tutorialActive = false;
-let tutorialStepIndex = 0;
-let tutorialHudPreview = false;
-
-const TUTORIAL_STEPS = [
-  {
-    title: 'Antes de empezar',
-    text: 'Vas a recorrer una historia interactiva ambientada en la Argentina de 1820. Leé los diálogos y elegí tus respuestas cuando aparezcan.',
-    target: null
-  },
-  {
-    title: 'La narración',
-    text: 'La historia aparece en esta caja de diálogo. Cuando habla un personaje, su nombre aparece en la parte superior de la caja.',
-    target: 'dialogueBox'
-  },
-  {
-    title: 'Cómo avanzar',
-    text: 'Usá el botón Continuar para seguir. Si el texto todavía se está escribiendo, el primer clic termina de mostrarlo y el siguiente avanza a la próxima línea.',
-    target: 'continueBtn'
-  },
-  {
-    title: 'Historial',
-    text: 'El botón Historial permite consultar los diálogos anteriores. Es útil para recordar información importante de la historia.',
-    target: 'btnHistory'
-  },
-  {
-    title: 'Ajustes',
-    text: 'Desde Ajustes podés modificar la velocidad del texto, la tipografía y el tamaño de letra, además de activar la pantalla completa.',
-    target: 'btnSettings'
-  },
-  {
-    title: 'Tomar decisiones',
-    text: 'En algunas escenas aparecerán distintas respuestas. Elegí una antes de que termine el tiempo. Tus decisiones pueden influir en el desarrollo de la aventura.',
-    target: 'dialogueBox'
-  },
-  {
-    title: 'Civilización y Barbarie',
-    text: 'Durante las escenas correspondientes vas a ver estos indicadores. Representan la tendencia de tus decisiones hacia Civilización o Barbarie.',
-    target: 'hud',
-    showHud: true
-  }
-];
 
 /* --- 3. PERSISTENCIA EN LOCALSTORAGE Y AJUSTES --- */
 
 function saveSettings() {
   try {
     localStorage.setItem('facundo_settings', JSON.stringify(state.settings));
+    if (window.FacundoProgress && window.FacundoProgress.saveSharedSettings) {
+      const font = ({ serif: 'font-serif', sans: 'font-sans', dyslexic: 'font-dyslexic', pixel: 'font-pixel' })[state.settings.fontFamily] || 'font-serif';
+      const size = ({ 'text-sm': 'size-small', 'text-md': 'size-medium', 'text-lg': 'size-large' })[state.settings.textSize] || 'size-medium';
+      const speedPercent = Math.min(100, Math.max(1, ((Number(state.settings.textSpeedVal) + 15) / 0.75)));
+      window.FacundoProgress.saveSharedSettings({ font, size, speedPercent });
+    }
   } catch (e) {
     console.warn('No se pudo guardar la configuración:', e);
   }
@@ -273,6 +228,13 @@ function loadSettings() {
     }
   }
 
+  if (window.FacundoProgress && window.FacundoProgress.getSharedSettings) {
+    const shared = window.FacundoProgress.getSharedSettings();
+    state.settings.fontFamily = ({ 'font-serif': 'serif', 'font-sans': 'sans', 'font-dyslexic': 'dyslexic', 'font-pixel': 'pixel' })[shared.font] || state.settings.fontFamily;
+    state.settings.textSize = ({ 'size-small': 'text-sm', 'size-medium': 'text-md', 'size-large': 'text-lg' })[shared.size] || state.settings.textSize;
+    state.settings.textSpeedVal = Math.min(60, Math.max(5, Math.round(65 - (80 - (0.75 * shared.speedPercent)))));
+  }
+
   if (dom.sliderSpeed) dom.sliderSpeed.value = state.settings.textSpeedVal;
   if (dom.selectTextSize) dom.selectTextSize.value = state.settings.textSize;
   if (dom.selectFontFamily) dom.selectFontFamily.value = state.settings.fontFamily;
@@ -286,7 +248,7 @@ function applySettingsToUI() {
     dom.dialogueText.classList.add(state.settings.textSize);
   }
 
-  document.body.classList.remove('font-serif', 'font-sans', 'font-dyslexic');
+  document.body.classList.remove('font-serif', 'font-sans', 'font-dyslexic', 'font-pixel');
   document.body.classList.add(`font-${state.settings.fontFamily}`);
 }
 
@@ -604,144 +566,6 @@ function startCountdown(seconds, onTimeout) {
 }
 
 /* --- 6. SECUENCIA DE HISTORIA --- */
-function startCountdown(seconds, onTimeout) {
-  // Acá queda todo el código original de la función.
-}
-/* --- FUNCIONES DEL TUTORIAL --- */
-
-function startTutorial() {
-  // Si falta el HTML del tutorial, iniciar la historia normalmente.
-  if (!dom.tutorialOverlay) {
-    scenePrologo();
-    return;
-  }
-
-  tutorialActive = true;
-  tutorialStepIndex = 0;
-
-  dom.tutorialOverlay.classList.remove('hidden');
-  dom.tutorialOverlay.setAttribute('aria-hidden', 'false');
-
-  showTutorialStep();
-}
-
-function showTutorialStep() {
-  const step = TUTORIAL_STEPS[tutorialStepIndex];
-
-  if (!step) {
-    finishTutorial();
-    return;
-  }
-
-  // Mostrar u ocultar temporalmente el indicador del HUD.
-  if (dom.hud) {
-    if (tutorialHudPreview && !step.showHud) {
-      dom.hud.classList.remove('show');
-    }
-
-    if (step.showHud) {
-      dom.hud.classList.add('show');
-    }
-  }
-
-  tutorialHudPreview = Boolean(step.showHud);
-
-  // Actualizar el contenido de la tarjeta.
-  if (dom.tutorialProgress) {
-    dom.tutorialProgress.textContent =
-      `TUTORIAL · PASO ${tutorialStepIndex + 1} DE ${TUTORIAL_STEPS.length}`;
-  }
-
-  if (dom.tutorialTitle) {
-    dom.tutorialTitle.textContent = step.title;
-  }
-
-  if (dom.tutorialText) {
-    dom.tutorialText.textContent = step.text;
-  }
-
-  if (dom.tutorialNext) {
-    const isLastStep =
-      tutorialStepIndex === TUTORIAL_STEPS.length - 1;
-
-    dom.tutorialNext.textContent = isLastStep
-      ? 'Comenzar historia'
-      : 'Siguiente';
-  }
-
-  // Mover la flecha al elemento explicado en este paso.
-  const target = step.target
-    ? document.getElementById(step.target)
-    : null;
-
-  positionTutorialArrow(target);
-}
-
-function positionTutorialArrow(target) {
-  if (!dom.tutorialArrow || !dom.stage || !target) {
-    if (dom.tutorialArrow) {
-      dom.tutorialArrow.classList.remove('show');
-    }
-    return;
-  }
-
-  const stageRect = dom.stage.getBoundingClientRect();
-  const targetRect = target.getBoundingClientRect();
-
-  dom.tutorialArrow.classList.add('show');
-
-  const arrowWidth = dom.tutorialArrow.offsetWidth || 56;
-  const arrowHeight = dom.tutorialArrow.offsetHeight || 56;
-
-  // Intentar colocar la flecha a la izquierda del elemento.
-  let left =
-    targetRect.left - stageRect.left - arrowWidth - 8;
-
-  // Si no hay lugar a la izquierda, colocarla a la derecha.
-  if (left < 8) {
-    left = targetRect.right - stageRect.left + 8;
-  }
-
-  let top =
-    targetRect.top - stageRect.top +
-    (targetRect.height - arrowHeight) / 2;
-
-  // Mantener la flecha dentro de la pantalla.
-  const maxLeft = Math.max(8, stageRect.width - arrowWidth - 8);
-  const maxTop = Math.max(8, stageRect.height - arrowHeight - 8);
-
-  left = Math.max(8, Math.min(left, maxLeft));
-  top = Math.max(8, Math.min(top, maxTop));
-
-  dom.tutorialArrow.style.left = `${left}px`;
-  dom.tutorialArrow.style.top = `${top}px`;
-}
-
-function finishTutorial() {
-  if (!tutorialActive) return;
-
-  tutorialActive = false;
-
-  if (dom.tutorialOverlay) {
-    dom.tutorialOverlay.classList.add('hidden');
-    dom.tutorialOverlay.setAttribute('aria-hidden', 'true');
-  }
-
-  if (dom.tutorialArrow) {
-    dom.tutorialArrow.classList.remove('show');
-  }
-
-  // El HUD vuelve a su estado normal antes de empezar la historia.
-  if (dom.hud && tutorialHudPreview) {
-    dom.hud.classList.remove('show');
-  }
-
-  tutorialHudPreview = false;
-
-  // Recién ahora empieza el prólogo y su secuencia de diálogos.
-  scenePrologo();
-}
-/* --- 6. SECUENCIA DE HISTORIA --- */
 
 function scenePrologo() {
   renderScene({ bg: BG.pampa, lines: PROLOGO_LINES, clearPortraits: true, showHud: false, onComplete: sceneIntro });
@@ -907,13 +731,24 @@ function renderEnding(ending, civilPct, barbariePct) {
   };
   card.appendChild(retryBtn);
 
+  const menuBtn = document.createElement('button');
+  menuBtn.type = 'button';
+  menuBtn.className = 'small-btn';
+  menuBtn.style.marginTop = '0.75rem';
+  menuBtn.textContent = 'Volver al menú';
+  menuBtn.addEventListener('click', () => {
+    if (window.FacundoProgress) window.FacundoProgress.openMenu();
+  });
+  card.appendChild(menuBtn);
+
   const nextChapterBtn = document.createElement('button');
   nextChapterBtn.type = 'button';
   nextChapterBtn.className = 'big-btn';
   nextChapterBtn.style.marginTop = '0.75rem';
   nextChapterBtn.textContent = 'Continuar al Capítulo 1';
   nextChapterBtn.onclick = () => {
-    window.location.href = '../../../Capitulo1/Capitulo1/index.html';
+    if (window.FacundoProgress) window.FacundoProgress.navigateTo('capitulo1');
+    else window.location.href = '../../../Capitulo1/Capitulo1/index.html';
   };
   card.appendChild(nextChapterBtn);
 
@@ -953,6 +788,16 @@ function updateHistoryModal() {
 }
 
 function initUIEvents() {
+  if (dom.btnMenuStart) {
+    dom.btnMenuStart.addEventListener('click', () => {
+      if (window.FacundoProgress) window.FacundoProgress.openMenu();
+    });
+  }
+  if (dom.btnMenu) {
+    dom.btnMenu.addEventListener('click', () => {
+      if (window.FacundoProgress) window.FacundoProgress.openMenu();
+    });
+  }
   if (dom.btnSettings && dom.modalSettings) {
     dom.btnSettings.addEventListener('click', () => dom.modalSettings.classList.remove('hidden'));
   }
@@ -995,7 +840,9 @@ function initUIEvents() {
 
   if (dom.btnToggleFullscreen) {
     dom.btnToggleFullscreen.addEventListener('click', () => {
-      if (!document.fullscreenElement) {
+      if (window.FacundoFullscreen) {
+        window.FacundoFullscreen.toggle().catch(err => console.log(err));
+      } else if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(err => console.log(err));
       } else {
         document.exitFullscreen().catch(err => console.log(err));
@@ -1004,27 +851,6 @@ function initUIEvents() {
   }
 
   window.addEventListener('keydown', (e) => {
-        // Mientras el tutorial está abierto, bloquear los controles del juego.
-    if (tutorialActive) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        finishTutorial();
-        return;
-      }
-
-      if (
-        (e.key === ' ' || e.key === 'Enter') &&
-        document.activeElement?.tagName !== 'BUTTON'
-      ) {
-        e.preventDefault();
-
-        if (dom.tutorialNext) {
-          dom.tutorialNext.click();
-        }
-      }
-
-      return;
-    }
     if (e.key === 'Escape') {
       if (dom.modalSettings) dom.modalSettings.classList.add('hidden');
       if (dom.modalHistory) dom.modalHistory.classList.add('hidden');
@@ -1046,36 +872,14 @@ function initUIEvents() {
 }
 
 /* --- 8. INICIALIZACIÓN --- */
-/* --- INICIALIZACIÓN --- */
 
+if (window.FacundoProgress) window.FacundoProgress.setCurrentStep('prologo');
 loadSettings();
 initUIEvents();
 
-// Botón para avanzar por el tutorial.
-if (dom.tutorialNext) {
-  dom.tutorialNext.addEventListener('click', () => {
-    if (!tutorialActive) return;
-
-    if (tutorialStepIndex < TUTORIAL_STEPS.length - 1) {
-      tutorialStepIndex++;
-      showTutorialStep();
-    } else {
-      finishTutorial();
-    }
-  });
-}
-
-// Permitir omitir el tutorial.
-if (dom.tutorialSkip) {
-  dom.tutorialSkip.addEventListener('click', () => {
-    finishTutorial();
-  });
-}
-
-// El tutorial comienza al pulsar "Comenzar Historia".
 if (dom.startBtn && dom.startScreen) {
   dom.startBtn.addEventListener('click', () => {
     dom.startScreen.remove();
-    startTutorial();
+    scenePrologo();
   });
 }

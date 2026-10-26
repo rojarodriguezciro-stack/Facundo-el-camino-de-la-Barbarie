@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FACUNDO: CAMINO DE LA BARBARIE</title>
+    <link rel="stylesheet" href="MenúPrincipal.css">
+</head>
+<body>
+    <main class="game-menu">
+        <!-- Fondo de Pantalla Local -->
+        <div class="background" aria-hidden="true"></div>
+
+        <!-- Barra Superior de Íconos -->
+  <header class="topbar">
+    <div class="topbar-left">
+        <!-- Botón Inicio -->
+        <button class="icon-btn" id="homeBtn" aria-label="Inicio">
+            <svg viewBox="0 0 24 24">
+                <path fill="#f5dfbe" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+        </button>
+
+        <!-- Botón Configuración (Engranaje Simétrico) -->
+<button class="icon-btn" id="settingsBtnTop" aria-label="Configuración">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.07.62-.07.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="#F2E5D5"/>
+    </svg>
+</button>
+    </div>
+</header>
+
+        <!-- Título Principal -->
+        <div class="title-container">
+            <h1>
+                <span>FACUNDO:</span>
+                <span>CAMINO DE LA</span>
+                <span>BARBARIE</span>
+            </h1>
+        </div>
+
+        <!-- Retrato Izquierdo (Facundo Quiroga) -->
+        <figure class="portrait-card portrait-facundo">
+            <div class="portrait-img-wrap">
+                <img src="Recursos Graficos/Retrato de Facundo.png" alt="Retrato de Facundo Quiroga">
+            </div>
+            <figcaption>
+                <span>RETRATO DE</span>
+                <span>FACUNDO QUIROGA</span>
+                <span>(BANDO FEDERAL)</span>
+            </figcaption>
+        </figure>
+
+        <!-- Retrato Derecho (D.F. Sarmiento) -->
+        <figure class="portrait-card portrait-sarmiento">
+            <div class="portrait-img-wrap">
+                <img src="Recursos Graficos/Retrato de Sarmiento.png" alt="Retrato de D.F. Sarmiento">
+            </div>
+            <figcaption>
+                <span>RETRATO DE</span>
+                <span>D.F. SARMIENTO</span>
+                <span>(BANDO UNITARIO)</span>
+            </figcaption>
+        </figure>
+
+        <!-- Botones Centrales del Menú -->
+        <nav class="center-menu" aria-label="Menú de Navegación">
+            <button class="menu-btn" id="startBtn">
+                <span>COMENZAR<br>CAMINO</span>
+            </button>
+            <button class="menu-btn" id="continueBtn">
+                <span>RETOMAR<br>CAMINO</span>
+            </button>
+            <button class="menu-btn" id="creditsBtn">
+                <span>CRÉDITOS</span>
+            </button>
+            <button class="menu-btn" id="exitGameBtn">
+                <span>SALIR</span>
+            </button>
+        </nav>
+
+        <div class="toast-message" id="toastMessage" aria-live="polite"></div>
+    </main>
+
+    <!-- Modal de Configuración Identico a Capítulos -->
+    <div class="modal-backdrop" id="settingsModal" aria-hidden="true">
+        <div class="modal-content-chapter settings-modal-box">
+            <header class="modal-header">
+                <h3>AJUSTES DEL JUEGO</h3>
+                <button class="close-btn" id="closeSettingsBtn" aria-label="Cerrar ajustes">✖</button>
+            </header>
+            <div class="settings-grid">
+                <!-- Sección 1 -->
+                <fieldset class="settings-group">
+                    <legend>1. TEXTO Y LECTURA</legend>
+                    <div class="setting-item">
+                        <label for="textSpeed">Velocidad de texto:</label>
+                        <input type="range" id="textSpeed" min="1" max="100" value="70">
+                    </div>
+                </fieldset>
+
+                <!-- Sección 2 -->
+                <fieldset class="settings-group">
+                    <legend>2. TIPOGRAFÍA Y ESTILO VISUAL</legend>
+                    <div class="setting-item">
+                        <label for="fontSelect">Tipo de Fuente:</label>
+                        <select id="fontSelect">
+                            <option value="font-serif">Clásica (Serif)</option>
+                            <option value="font-sans">Sistema (Sin Serif)</option>
+                            <option value="font-dyslexic">Lectura fácil (OpenDyslexic)</option>
+                            <option value="font-pixel">Retro Pixel Art</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="fontSizeSelect">Tamaño de letra:</label>
+                        <select id="fontSizeSelect">
+                            <option value="size-small">Pequeña</option>
+                            <option value="size-medium" selected>Mediana</option>
+                            <option value="size-large">Grande</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- Sección 3 -->
+                <fieldset class="settings-group">
+                    <legend>3. GRÁFICOS Y PANTALLA</legend>
+                    <div class="setting-item">
+                        <span>Modo de Pantalla:</span>
+                        <button class="fullscreen-btn" id="toggleFullscreenBtn">Alternar Pantalla Completa</button>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Créditos -->
+    <div class="modal-backdrop" id="creditsModal" aria-hidden="true">
+        <div class="modal-content-chapter credits-container">
+            <header class="modal-header">
+                <h3>CRÉDITOS DEL PROYECTO</h3>
+                <button class="close-btn" id="closeCreditsBtn" aria-label="Cerrar créditos">✖</button>
+            </header>
+            
+            <div class="credits-body">
+                <section class="credits-section intro-section">
+                    <h4>PROYECTO EDUCATIVO INTERACTIVO</h4>
+                    <p>
+                        <strong>"Facundo: Camino de la Barbarie"</strong> es una novela visual e interactiva desarrollada como proyecto escolar de formación técnica en Tecnologías de la Información y la Comunicación (TIC). Su objetivo es adaptar y reinterpretar de manera didáctica la obra clásica <em>Facundo o civilización y barbarie en las pampas argentinas</em> de Domingo Faustino Sarmiento, explorando las tensiones históricas entre Unitarios y Federales.
+                    </p>
+                </section>
+
+                <section class="credits-section">
+                    <h4>EQUIPO DE DESARROLLO</h4>
+                    <div class="team-grid">
+                        <div class="team-card">
+                            <span class="member-name">Brenda Huanca</span>
+                            <span class="member-role">Programación Web, Diseño de Interfaz (UI/UX) y Coordinación de Proyecto</span>
+                        </div>
+                        <div class="team-card">
+                            <span class="member-name">Daiana Condori</span>
+                            <span class="member-role">Investigación Histórica, Guión Narrativo y Redacción de Diálogos</span>
+                        </div>
+                        <div class="team-card">
+                            <span class="member-name">Alex Cataño</span>
+                            <span class="member-role">Dirección Artística Pixel-Art, Edición de Sprites y Recursos Gráficos</span>
+                        </div>
+                        <div class="team-card">
+                            <span class="member-name">Ciro Rojas</span>
+                            <span class="member-role">Lógica de Juego (JS), Sistema de Decisión de Capítulos y Pruebas QA</span>
+                        </div>
+                        <div class="team-card">
+                            <span class="member-name">Yuri Vargas</span>
+                            <span class="member-role">Ambientación Sonora, Estructuración de Escenarios y Documentación</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="credits-section">
+                    <h4>HERRAMIENTAS Y TECNOLOGÍAS</h4>
+                    <div class="tools-list">
+                        <div class="tool-item">
+                            <strong>Tecnologías Web Base:</strong> HTML5, CSS3 (Flexbox/Grid), JavaScript ES6.
+                        </div>
+                        <div class="tool-item">
+                            <strong>Plataformas de Diseño y Código:</strong> Visual Studio Code, Figma, Canva y GitHub.
+                        </div>
+                        <div class="tool-item">
+                            <strong>Modelos e Inteligencia Artificial:</strong> Asistencia en maquetación de código, refinamiento narrativo y sugerencias de UI mediante <em>Gemini</em>, <em>ChatGPT</em> y <em>Claude</em>.
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Confirmación de Salida -->
+    <div class="modal-backdrop" id="exitModal" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-labelledby="modalTitle">
+            <button class="modal-close-x" id="modalCloseXBtn">×</button>
+            <h2 id="modalTitle">¿SALIR DEL JUEGO?</h2>
+            <p>¿Estás seguro de que deseas salir del juego?</p>
+            <button class="menu-btn modal-btn" id="modalConfirmBtn">
+                <span>ACEPTAR</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="fullscreen.js"></script>
+    <script src="progreso.js"></script>
+    <script src="MenúPrincipal.js"></script>
+</body>
+</html>

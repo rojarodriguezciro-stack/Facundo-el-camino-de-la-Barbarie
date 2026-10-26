@@ -647,6 +647,7 @@ function addHistoryLog(speaker, text) {
    =================================================================== */
 
 function showEndingScreen() {
+  saveProgressCap2();
   const civil = gameState.civilizacion;
   const barbarie = gameState.barbarie;
   const investigacion = gameState.investigacion;
@@ -667,6 +668,32 @@ function showEndingScreen() {
   if (DOM.endingScore) DOM.endingScore.textContent = `Alineación final — Civilización: ${civil}% | Barbarie: ${barbarie}% | Análisis: ${investigacion} pts`;
 
   if (DOM.endingScreen) DOM.endingScreen.classList.add("active");
+
+  const endingCard = DOM.endingScreen?.querySelector(".start-card");
+  if (endingCard && !document.getElementById("btn-next-chapter")) {
+    const nextButton = document.createElement("button");
+    nextButton.id = "btn-next-chapter";
+    nextButton.type = "button";
+    nextButton.className = "big-btn";
+    nextButton.textContent = "Continuar al Capítulo 3";
+    nextButton.style.marginTop = "0.75rem";
+    nextButton.addEventListener("click", () => {
+      if (window.FacundoProgress) window.FacundoProgress.navigateTo("capitulo3");
+      else window.location.href = "../Capitulo%203/index.html";
+    });
+    endingCard.appendChild(nextButton);
+
+    const menuButton = document.createElement("button");
+    menuButton.id = "btn-menu-ending";
+    menuButton.type = "button";
+    menuButton.className = "big-btn";
+    menuButton.style.marginTop = "0.75rem";
+    menuButton.textContent = "Volver al menú";
+    menuButton.addEventListener("click", () => {
+      if (window.FacundoProgress) window.FacundoProgress.openMenu();
+    });
+    endingCard.appendChild(menuButton);
+  }
 }
 
 /* ===================================================================
@@ -688,6 +715,28 @@ function startGameplay() {
   }
   if (DOM.hud) DOM.hud.classList.add("show");
   loadScene("escena_1_llegada_larioja");
+}
+
+
+function loadSharedMenuSettings() {
+  if (!window.FacundoProgress || !window.FacundoProgress.getSharedSettings) return;
+  const shared = window.FacundoProgress.getSharedSettings();
+  gameState.settings.fontFamily = shared.font;
+  gameState.settings.fontSize = ({ "size-small": "text-sm", "size-medium": "text-md", "size-large": "text-lg" })[shared.size] || "text-md";
+  gameState.settings.textSpeed = Math.min(80, Math.max(5, Math.round(80 - (0.75 * shared.speedPercent))));
+  if (DOM.textSpeedInput) DOM.textSpeedInput.value = String(Math.round(85 - gameState.settings.textSpeed));
+  if (DOM.fontFamilySelect) DOM.fontFamilySelect.value = gameState.settings.fontFamily;
+  if (DOM.fontSizeSelect) DOM.fontSizeSelect.value = gameState.settings.fontSize;
+}
+
+function saveSharedMenuSettings() {
+  if (!window.FacundoProgress || !window.FacundoProgress.saveSharedSettings) return;
+  const speedPercent = ((80 - gameState.settings.textSpeed) / 75) * 100;
+  window.FacundoProgress.saveSharedSettings({
+    font: gameState.settings.fontFamily,
+    size: ({ "text-sm": "size-small", "text-md": "size-medium", "text-lg": "size-large" })[gameState.settings.fontSize] || "size-medium",
+    speedPercent
+  });
 }
 
 function bindEvents() {
@@ -741,6 +790,16 @@ function bindEvents() {
     });
   }
 
+  const menuButtons = [
+    document.getElementById("btn-menu"),
+    document.getElementById("btn-menu-start")
+  ];
+  menuButtons.filter(Boolean).forEach((button) => {
+    button.addEventListener("click", () => {
+      if (window.FacundoProgress) window.FacundoProgress.openMenu();
+    });
+  });
+
   if (DOM.btnSettings) DOM.btnSettings.addEventListener("click", () => openModal(DOM.settingsModal));
   if (DOM.closeSettings) DOM.closeSettings.addEventListener("click", () => closeModal(DOM.settingsModal));
 
@@ -750,6 +809,7 @@ function bindEvents() {
   if (DOM.textSpeedInput) {
     DOM.textSpeedInput.addEventListener("input", (e) => {
       gameState.settings.textSpeed = 85 - parseInt(e.target.value, 10);
+      saveSharedMenuSettings();
     });
   }
 
@@ -757,6 +817,7 @@ function bindEvents() {
     DOM.fontFamilySelect.addEventListener("change", (e) => {
       gameState.settings.fontFamily = e.target.value;
       applyTypographySettings();
+      saveSharedMenuSettings();
     });
   }
 
@@ -764,12 +825,15 @@ function bindEvents() {
     DOM.fontSizeSelect.addEventListener("change", (e) => {
       gameState.settings.fontSize = e.target.value;
       applyTypographySettings();
+      saveSharedMenuSettings();
     });
   }
 
   if (DOM.btnFullscreen) {
     DOM.btnFullscreen.addEventListener("click", () => {
-      if (!document.fullscreenElement) {
+      if (window.FacundoFullscreen) {
+        window.FacundoFullscreen.toggle().catch((err) => console.error(`Error al cambiar pantalla completa: ${err.message}`));
+      } else if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch((err) => {
           console.error(`Error de pantalla completa: ${err.message}`);
         });
@@ -781,9 +845,11 @@ function bindEvents() {
 }
 
 function init() {
+  if (window.FacundoProgress) window.FacundoProgress.setCurrentStep("capitulo2");
   console.log("Inicializando script.js - Capítulo 2...");
   initDOMReferences();
   loadProgressFromCap1();
+  loadSharedMenuSettings();
   bindEvents();
   updateCompassHUD();
   applyTypographySettings();

@@ -29,6 +29,7 @@
       <div class="top-controls">
         <button id="btnHistory" type="button" class="ui-btn-icon" aria-label="Abrir historial">Historial</button>
         <button id="btnSettings" type="button" class="ui-btn-icon" aria-label="Abrir ajustes">Ajustes</button>
+        <button id="btnMenu" type="button" class="ui-btn-icon" aria-label="Volver al menú principal">Menú</button>
       </div>
     </header>
 
@@ -56,14 +57,31 @@
       </div>
     </div>
 
-    <!-- Pantalla Inicial -->
-    <div id="startScreen" class="overlay-screen active">
-      <div class="start-card">
-        <h1>FACUNDO</h1>
-        <h2>Civilización o Barbarie</h2>
-        <p class="subtitle">Una experiencia narrativa interactiva</p>
-        <button id="startBtn" type="button" class="big-btn">Comenzar Historia</button>
-      </div>
+    <!-- Tutorial inicial: manual visual + explicación de controles -->
+    <div id="startScreen" class="overlay-screen active tutorial-overlay">
+      <section class="start-card tutorial-card" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle">
+        <h1 id="tutorialTitle">MANUAL DE JUEGO</h1>
+        <p class="tutorial-intro">Antes de comenzar la historia, revisá el manual y las indicaciones para jugar.</p>
+
+        <img
+          class="tutorial-image"
+          src="imagenes/manual-del-juego.png"
+          alt="Manual de juego. El clic izquierdo del ratón permite continuar los diálogos y la barra espaciadora avanzar el texto. También se muestran las estadísticas del juego: Civilización, Barbarie o Quiroga, e Investigación."
+        />
+
+        <div class="tutorial-explanation">
+          <h2>¿Cómo jugar?</h2>
+          <p><strong>Continuar diálogos:</strong> hacé clic izquierdo con el ratón o presioná la barra espaciadora para avanzar.</p>
+          <p><strong>Tomar decisiones:</strong> cuando aparezcan opciones, elegí la respuesta que prefieras. Tus decisiones influyen en el desarrollo de la historia.</p>
+          <p><strong>Estadísticas:</strong> prestá atención a los indicadores de Civilización y Barbarie/Quiroga, y al de Investigación cuando esté disponible.</p>
+          <p><strong>Controles adicionales:</strong> usá <strong>Historial</strong> para revisar los diálogos, <strong>Ajustes</strong> para cambiar la lectura y <strong>Menú</strong> para regresar al menú principal.</p>
+        </div>
+
+        <div class="tutorial-actions">
+          <button id="startBtn" type="button" class="big-btn">Continuar al prólogo</button>
+          <button id="btnMenuStart" type="button" class="small-btn">Volver al menú</button>
+        </div>
+      </section>
     </div>
 
     <!-- Modal Historial -->
@@ -128,54 +146,8 @@
 
   </div>
 
+  <script src="../../../fullscreen.js" defer></script>
+  <script src="../../../progreso.js" defer></script>
   <script src="script.js" defer></script>
 </body>
 </html>
-    <!-- Tutorial interactivo del prólogo -->
-    <div
-      id="tutorialOverlay"
-      class="tutorial-overlay hidden"
-      role="dialog"
-      aria-labelledby="tutorialTitle"
-      aria-describedby="tutorialText"
-    >
-      <!-- Flecha pixel art -->
-      <img
-        id="tutorialArrow"
-        class="tutorial-arrow"
-        src="imagenes/flecha%20de%20tutorial.jpg"
-        alt=""
-        aria-hidden="true"
-      />
-
-      <!-- Panel de instrucciones -->
-      <div class="tutorial-card">
-        <p id="tutorialProgress" class="tutorial-progress">
-          TUTORIAL
-        </p>
-
-        <h2 id="tutorialTitle">Cómo jugar</h2>
-
-        <p id="tutorialText">
-          Aprendé a utilizar los controles antes de comenzar la aventura.
-        </p>
-
-        <div class="tutorial-actions">
-          <button
-            id="tutorialSkip"
-            type="button"
-            class="small-btn"
-          >
-            Omitir tutorial
-          </button>
-
-          <button
-            id="tutorialNext"
-            type="button"
-            class="continue-btn"
-          >
-            Siguiente
-          </button>
-        </div>
-      </div>
-    </div>
