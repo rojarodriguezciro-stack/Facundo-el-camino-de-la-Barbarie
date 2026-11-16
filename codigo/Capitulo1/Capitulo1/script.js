@@ -867,9 +867,7 @@ function showEndingScreen() {
     menuButton.className = "big-btn";
     menuButton.style.marginTop = "0.75rem";
     menuButton.textContent = "Volver al menú";
-    menuButton.addEventListener("click", () => {
-      if (window.FacundoProgress) window.FacundoProgress.openMenu();
-    });
+    menuButton.addEventListener("click", irAlMenuPrincipal);
     endingCard.appendChild(menuButton);
   }
 }
@@ -897,7 +895,93 @@ function saveSharedMenuSettings() {
 }
 
 /* ===================================================================
-   11. MODALES Y EVENTOS
+   11. MÓDULO: CONFIRMACIÓN PARA VOLVER AL MENÚ PRINCIPAL
+   =================================================================== */
+
+const RUTA_MENU_PRINCIPAL = "../../VersiónFinal.html";
+
+let modalConfirmarMenu = null;
+
+/* --- Navegación --- */
+
+function irAlMenuPrincipal() {
+  if (window.FacundoProgress && typeof window.FacundoProgress.openMenu === "function") {
+    window.FacundoProgress.openMenu();
+  } else {
+    window.location.href = encodeURI(RUTA_MENU_PRINCIPAL);
+  }
+}
+
+/* --- Construcción del cuadro (reutiliza las clases .modal y .big-btn del CSS) --- */
+
+function crearModalConfirmarMenu() {
+  const modal = document.createElement("div");
+  modal.id = "modal-confirm-menu";
+  modal.className = "modal hidden";
+  modal.setAttribute("role", "dialog");
+  modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("aria-labelledby", "confirm-menu-title");
+  modal.setAttribute("aria-hidden", "true");
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width: 420px; text-align: center;">
+      <h3 id="confirm-menu-title">¿Seguro que querés volver al menú?</h3>
+      <p style="margin: 0.75rem 0 1.25rem;">Vas a salir de la partida actual.</p>
+      <div style="display: flex; gap: 0.75rem;">
+        <button id="confirm-menu-yes" type="button" class="big-btn" style="flex: 1;">Sí</button>
+        <button id="confirm-menu-no" type="button" class="big-btn" style="flex: 1;">No</button>
+      </div>
+    </div>
+  `;
+
+  modal.querySelector("#confirm-menu-yes").addEventListener("click", irAlMenuPrincipal);
+  modal.querySelector("#confirm-menu-no").addEventListener("click", cerrarConfirmacionMenu);
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) cerrarConfirmacionMenu();
+  });
+
+  const contenedor = (DOM.settingsModal && DOM.settingsModal.parentNode) || document.body;
+  contenedor.appendChild(modal);
+  return modal;
+}
+
+/* --- Abrir / cerrar / consultar estado --- */
+
+function abrirConfirmacionMenu() {
+  if (!modalConfirmarMenu) modalConfirmarMenu = crearModalConfirmarMenu();
+  modalConfirmarMenu.classList.remove("hidden");
+  modalConfirmarMenu.setAttribute("aria-hidden", "false");
+  modalConfirmarMenu.querySelector("#confirm-menu-no").focus();
+}
+
+function cerrarConfirmacionMenu() {
+  if (!modalConfirmarMenu) return;
+  modalConfirmarMenu.classList.add("hidden");
+  modalConfirmarMenu.setAttribute("aria-hidden", "true");
+}
+
+function confirmacionMenuAbierta() {
+  return Boolean(modalConfirmarMenu) && !modalConfirmarMenu.classList.contains("hidden");
+}
+
+/* --- Conexión con los botones de la pantalla --- */
+
+function initConfirmacionMenu() {
+  // Botón "Menú" de la barra superior: pide confirmación
+  const botonMenu = document.getElementById("btn-menu");
+  if (botonMenu) botonMenu.addEventListener("click", abrirConfirmacionMenu);
+
+  // Botón "Volver al menú" de la pantalla de inicio: no hay partida que perder
+  const botonMenuInicio = document.getElementById("btn-menu-start");
+  if (botonMenuInicio) botonMenuInicio.addEventListener("click", irAlMenuPrincipal);
+
+  // Esc = "No"
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && confirmacionMenuAbierta()) cerrarConfirmacionMenu();
+  });
+}
+
+/* ===================================================================
+   12. MODALES Y EVENTOS
    =================================================================== */
 
 function openModal(modal) { modal.classList.remove("hidden"); }
@@ -926,7 +1010,8 @@ function bindEvents() {
         e.preventDefault();
         if (!DOM.startScreen.classList.contains("active") &&
             DOM.settingsModal.classList.contains("hidden") &&
-            DOM.historyModal.classList.contains("hidden")) {
+            DOM.historyModal.classList.contains("hidden") &&
+            !confirmacionMenuAbierta()) {
           advanceDialogue();
         }
       }
@@ -951,15 +1036,7 @@ function bindEvents() {
   });
 
   // Ajustes de Configuración
-  const menuButtons = [
-    document.getElementById("btn-menu"),
-    document.getElementById("btn-menu-start")
-  ];
-  menuButtons.filter(Boolean).forEach((button) => {
-    button.addEventListener("click", () => {
-      if (window.FacundoProgress) window.FacundoProgress.openMenu();
-    });
-  });
+  initConfirmacionMenu();
 
   DOM.btnSettings.addEventListener("click", () => openModal(DOM.settingsModal));
   DOM.closeSettings.addEventListener("click", () => closeModal(DOM.settingsModal));
