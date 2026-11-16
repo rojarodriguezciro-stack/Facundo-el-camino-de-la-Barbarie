@@ -1,85 +1,403 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capítulo 3 - El Último Viaje</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Facundo: Civilización o Barbarie - Capítulo 3</title>
+
+    <!-- Hoja de estilos CSS -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Diseño de la ventana de ajustes -->
+    <link rel="stylesheet" href="ajustes.css" />
 </head>
-<body>
-<main class="game-container">
-    <div class="background-layer bg-a" id="bgA"></div>
-    <div class="background-layer bg-b" id="bgB"></div>
-    <div class="vignette"></div>
 
-    <header class="chapter-header">
-        <div class="chapter-title">
-            <span>CAPÍTULO 3</span>
-            <strong>EL ÚLTIMO VIAJE</strong>
-        </div>
-        <div class="stats-hud" aria-label="Indicadores del recorrido">
-            <div class="stat"><span class="stat-icon">⚔</span><span class="stat-name">Civilización</span><strong id="statCivilizacion">0</strong></div>
-            <div class="stat"><span class="stat-icon">♟</span><span class="stat-name">Quiroga</span><strong id="statQuiroga">0</strong></div>
-            <div class="stat"><span class="stat-icon">⌕</span><span class="stat-name">Investigación</span><strong id="statInvestigacion">0</strong></div>
-        </div>
-    </header>
+<body class="font-serif">
 
-    <button id="backToMenuButton" class="menu-shortcut" type="button">VOLVER AL MENÚ</button>
+    <!-- Escenario principal -->
+    <div class="stage" id="stage">
 
-    <div class="scene-title" id="sceneTitle"></div>
+        <!-- Capas de fondo para transiciones -->
+        <div class="bg-layer active" id="bgA"></div>
+        <div class="bg-layer" id="bgB"></div>
+        <div class="bg-overlay-tint"></div>
 
-    <div class="chapter-progress" aria-hidden="true">
-        <div id="progressBar"></div>
-    </div>
+        <!-- Barra superior / HUD -->
+        <header class="top-bar">
 
-    <div class="character-container">
-        <img id="character" class="character" src="" alt="">
-    </div>
+            <!-- Indicador de Civilización y Barbarie -->
+            <div class="hud show" id="hud">
+                <div class="hud-group">
 
-    <section class="dialogue-container" id="dialogueContainer">
-        <div class="dialogue-name"><span id="characterName">Narrador</span></div>
-        <div class="dialogue-content">
-            <p id="dialogueText"></p>
-            <section class="choices-container" id="choices"></section>
-            <span class="continue-indicator" id="continueIndicator">▷</span>
-        </div>
-        <button class="continue-button" id="continueButton" type="button">CONTINUAR</button>
-    </section>
+                    <span class="hud-label civil">Civilización</span>
 
-    <div class="overlay start-overlay" id="startOverlay">
-        <div class="overlay-box">
-            <p class="overlay-chapter">CAPÍTULO 3</p>
-            <h1>EL ÚLTIMO VIAJE</h1>
-            <p>Después de los acontecimientos del capítulo anterior, Facundo emprende su último viaje.</p>
-            <p class="small-note">Esta vez, los rumores, las advertencias y las decisiones del camino conducirán hacia Barranca Yacó.</p>
-            <button id="startButton" type="button">COMENZAR CAPÍTULO</button>
-            <button id="menuStartButton" type="button">VOLVER AL MENÚ</button>
-        </div>
-    </div>
+                    <div class="compass-bar">
+                        <div
+                            class="compass-fill civil"
+                            id="compass-civil"
+                            style="width: 50%;"
+                        ></div>
 
-    <div class="overlay ending-overlay hidden" id="endingOverlay" aria-hidden="true">
-        <div class="ending-box">
-            <p class="overlay-chapter">CAPÍTULO 3 · FINAL</p>
-            <h1 id="endingTitle">EL LEGADO</h1>
-            <p id="endingText"></p>
+                        <div
+                            class="compass-fill barbarie"
+                            id="compass-barbarie"
+                            style="width: 50%;"
+                        ></div>
+                    </div>
 
-            <div class="legacy-block">
-                <span class="legacy-label">UNA ÚLTIMA REFLEXIÓN</span>
-                <p id="reflectionText"></p>
+                    <span class="hud-label barbarie">Barbarie</span>
+
+                </div>
             </div>
 
-            <div class="final-stats">
-                <div class="final-stat"><span>Civilización</span><strong id="finalCivilizacion">0</strong></div>
-                <div class="final-stat"><span>Quiroga</span><strong id="finalQuiroga">0</strong></div>
-                <div class="final-stat"><span>Investigación</span><strong id="finalInvestigacion">0</strong></div>
+            <!-- Controles superiores -->
+            <div class="top-controls">
+                <button class="ui-btn-icon" id="btn-history" type="button">
+                    Historial
+                </button>
+
+                <button class="ui-btn-icon" id="btn-settings" type="button">
+                    Ajustes
+                </button>
+
+                <button class="ui-btn-icon" id="btn-menu" type="button">
+                    Menú
+                </button>
             </div>
 
-            <button id="menuButton" type="button">VOLVER AL MENÚ</button>
+        </header>
+
+        <!-- Progreso del capítulo -->
+        <div class="chapter-progress" aria-hidden="true">
+            <div id="progressBar"></div>
         </div>
+
+        <!-- Retrato del personaje -->
+        <div class="character-container">
+            <img
+                id="character"
+                class="character"
+                src=""
+                alt=""
+            />
+        </div>
+
+        <!-- Caja de diálogo -->
+        <main class="dialogue-box" id="dialogue-box">
+
+            <!-- Nombre del personaje o narrador -->
+            <div class="nameplate" id="characterName">
+                Narrador
+            </div>
+
+            <!-- Contexto de la escena -->
+            <p class="prompt-text" id="prompt-text"></p>
+
+            <!-- Texto y opciones -->
+            <div class="dialogue-content">
+
+                <p class="dialogue-text text-md" id="dialogueText"></p>
+
+                <!-- Opciones dinámicas -->
+                <div
+                    class="choices-container"
+                    id="choices"
+                ></div>
+
+            </div>
+
+            <!-- Botón continuar -->
+            <div class="continue-row">
+                <button
+                    class="continue-btn"
+                    id="continueButton"
+                    type="button"
+                >
+                    Continuar <span>▼</span>
+                </button>
+            </div>
+
+        </main>
+
+        <!-- Pantalla de inicio -->
+        <section
+            class="overlay-screen active"
+            id="startOverlay"
+        >
+            <div class="start-card">
+
+                <h1>Facundo</h1>
+
+                <p>
+                    Civilización o Barbarie — Capítulo 3:
+                    El Último Viaje y el Legado de Facundo Quiroga
+                </p>
+
+                <p class="small-note">
+                    Después de los acontecimientos anteriores,
+                    Facundo emprende su último viaje hacia Barranca Yacó.
+                </p>
+
+                <button
+                    class="big-btn"
+                    id="startButton"
+                    type="button"
+                >
+                    Comenzar Capítulo
+                </button>
+
+                <button
+                    class="big-btn"
+                    id="menuStartButton"
+                    type="button"
+                    style="background: #3b0e18;"
+                >
+                    Volver al menú
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Pantalla de finales -->
+        <section
+            class="overlay-screen hidden"
+            id="endingOverlay"
+            aria-hidden="true"
+        >
+            <div class="start-card">
+
+                <h2
+                    class="ending-title civil"
+                    id="endingTitle"
+                >
+                    EL LEGADO
+                </h2>
+
+                <div class="ending-body">
+
+                    <p id="endingText">
+                        Facundo ha muerto, pero su figura continúa.
+                        El viaje termina en Barranca Yacó; la interpretación
+                        de su figura recién comienza.
+                    </p>
+
+                    <!-- Reflexión final -->
+                    <div class="legacy-block">
+
+                        <span class="legacy-label">
+                            UNA ÚLTIMA REFLEXIÓN
+                        </span>
+
+                        <p id="reflectionText"></p>
+
+                    </div>
+
+                    <!-- Estadísticas finales -->
+                    <div class="final-stats">
+
+                        <div class="final-stat">
+                            <span>Civilización</span>
+                            <strong id="finalCivilizacion">0</strong>
+                        </div>
+
+                        <div class="final-stat">
+                            <span>Quiroga</span>
+                            <strong id="finalQuiroga">0</strong>
+                        </div>
+
+                        <div class="final-stat">
+                            <span>Investigación</span>
+                            <strong id="finalInvestigacion">0</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="big-btn"
+                    id="menuButton"
+                    type="button"
+                >
+                    Cerrar
+                </button>
+
+            </div>
+        </section>
+
+        <!-- Modal de ajustes -->
+        <div
+            class="modal hidden"
+            id="settings-modal"
+        >
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h3>AJUSTES DEL JUEGO</h3>
+
+                    <button
+                        class="close-btn"
+                        id="close-settings"
+                        type="button"
+                        aria-label="Cerrar ajustes"
+                    >
+                        &times;
+                    </button>
+
+                </div>
+
+                <div class="settings-grid">
+
+                    <!-- Texto y lectura -->
+                    <fieldset class="settings-group">
+
+                        <legend>1. TEXTO Y LECTURA</legend>
+
+                        <div class="setting-item">
+
+                            <label for="text-speed-input">
+                                Velocidad de texto:
+                            </label>
+
+                            <input
+                                type="range"
+                                id="text-speed-input"
+                                min="5"
+                                max="80"
+                                value="30"
+                                step="5"
+                            />
+
+                        </div>
+
+                    </fieldset>
+
+                    <!-- Tipografía y estilo -->
+                    <fieldset class="settings-group">
+
+                        <legend>2. TIPOGRAFÍA Y ESTILO VISUAL</legend>
+
+                        <div class="setting-item">
+
+                            <label for="font-family-select">
+                                Tipo de fuente:
+                            </label>
+
+                            <select id="font-family-select">
+
+                                <option value="font-serif">
+                                    Clásica (Serif)
+                                </option>
+
+                                <option value="font-sans">
+                                    Sistema (Sin Serif)
+                                </option>
+
+                                <option value="font-dyslexic">
+                                    Lectura Fácil (OpenDyslexic)
+                                </option>
+
+                                <option value="font-pixel">
+                                    Retro Pixel Art
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="setting-item">
+
+                            <label for="font-size-select">
+                                Tamaño de letra:
+                            </label>
+
+                            <select id="font-size-select">
+
+                                <option value="text-sm">
+                                    Pequeña
+                                </option>
+
+                                <option value="text-md" selected>
+                                    Mediana
+                                </option>
+
+                                <option value="text-lg">
+                                    Grande
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </fieldset>
+
+                    <!-- Gráficos y pantalla -->
+                    <fieldset class="settings-group">
+
+                        <legend>3. GRÁFICOS Y PANTALLA</legend>
+
+                        <div class="setting-item">
+
+                            <label>Modo de pantalla:</label>
+
+                            <button
+                                class="fullscreen-btn"
+                                id="btn-fullscreen"
+                                type="button"
+                            >
+                                Alternar Pantalla Completa
+                            </button>
+
+                        </div>
+
+                    </fieldset>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal de historial -->
+        <div
+            class="modal hidden"
+            id="history-modal"
+        >
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h3>Historial de Diálogos</h3>
+
+                    <button
+                        class="close-btn"
+                        id="close-history"
+                        type="button"
+                        aria-label="Cerrar historial"
+                    >
+                        &times;
+                    </button>
+
+                </div>
+
+                <div
+                    class="history-log"
+                    id="history-log"
+                >
+                    <!-- El JavaScript agrega los diálogos -->
+                </div>
+
+            </div>
+        </div>
+
     </div>
-</main>
-<script src="../fullscreen.js"></script>
-<script src="../progreso.js"></script>
-<script src="script.js"></script>
+
+    <script src="../fullscreen.js"></script>
+    <script src="../progreso.js"></script>
+
+    <!-- Lógica específica del Capítulo 3 -->
+    <script src="script.js"></script>
+
 </body>
 </html>
